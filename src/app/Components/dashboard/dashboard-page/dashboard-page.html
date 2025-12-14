@@ -1,1 +1,57 @@
-<p>dashboard-page works!</p>
+<div class="dashboard-layout">
+  <app-sidebar></app-sidebar>
+  <main class="dashboard-main">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <p>Welcome back! Here's what's happening with your business.</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="spinner"></div>
+    } @else {
+      <div class="stats-grid grid grid-4">
+        <div class="stat-card card">
+          <div class="stat-icon revenue">💰</div>
+          <div class="stat-content">
+            <h3>Total Revenue</h3>
+            <p class="stat-value">${{ totalRevenue() | number:'1.2-2' }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card card">
+          <div class="stat-icon expense">💸</div>
+          <div class="stat-content">
+            <h3>Total Expenses</h3>
+            <p class="stat-value">{{ totalExpenses() }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card card">
+          <div class="stat-icon customer">👥</div>
+          <div class="stat-content">
+            <h3>Customers</h3>
+            <p class="stat-value">{{ totalCustomers() }}</p>
+          </div>
+        </div>
+
+        <div class="stat-card card">
+          <div class="stat-icon service">🚀</div>
+          <div class="stat-content">
+            <h3>Active Services</h3>
+            <p class="stat-value">{{ totalServices() }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-alert">
+        @if (unreadMessages() > 0) {
+          <div class="alert alert-info">
+            You have {{ unreadMessages() }} unread message(s). <a routerLink="/dashboard/contact-messages">View messages</a>
+          </div>
+        }
+      </div>
+    }
+
+    <router-outlet></router-outlet>
+  </main>
+</div>

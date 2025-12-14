@@ -1,1 +1,31 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-content">
+      <a routerLink="/" class="navbar-brand">
+        <span class="brand-icon">🚀</span>
+        <span class="brand-text">Tevolai</span>
+      </a>
+      
+      <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <ul class="navbar-menu" [class.active]="isMenuOpen()">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+        
+        @if (isAuthenticated()) {
+          <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+          <li><button class="btn btn-outline" (click)="logout()">Logout</button></li>
+        } @else {
+          <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+          <li><a routerLink="/register" routerLinkActive="active" class="btn btn-primary">Get Started</a></li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

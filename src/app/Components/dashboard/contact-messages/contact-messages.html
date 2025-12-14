@@ -1,0 +1,74 @@
+<div class="contact-messages-page">
+  <div class="page-header">
+    <h2>Contact Messages</h2>
+    <div class="filter-buttons">
+      <button class="btn btn-outline" [class.active]="filterRead() === null" (click)="filterMessages(null)">All</button>
+      <button class="btn btn-outline" [class.active]="filterRead() === false" (click)="filterMessages(false)">Unread</button>
+      <button class="btn btn-outline" [class.active]="filterRead() === true" (click)="filterMessages(true)">Read</button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="spinner"></div>
+  } @else {
+    <div class="messages-layout">
+      <div class="messages-list">
+        @for (message of messages(); track message.id) {
+          <div class="message-card card" [class.unread]="!message.isRead" (click)="viewMessage(message)">
+            <div class="message-header">
+              <h4>{{ message.name }}</h4>
+              @if (!message.isRead) {
+                <span class="unread-badge">New</span>
+              }
+            </div>
+            <p class="message-email">{{ message.email }}</p>
+            <p class="message-subject">{{ message.subject }}</p>
+            <p class="message-preview">{{ message.message.substring(0, 100) }}...</p>
+            <div class="message-footer">
+              <span class="message-date">{{ message.createdAt | date:'short' }}</span>
+              <button class="btn-icon btn-danger" (click)="deleteMessage(message.id!); $event.stopPropagation()">🗑️</button>
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-state">No messages found</div>
+        }
+      </div>
+
+      @if (selectedMessage()) {
+        <div class="message-detail card">
+          <div class="detail-header">
+            <h3>Message Details</h3>
+            <button class="close-btn" (click)="closeMessage()">×</button>
+          </div>
+          <div class="detail-content">
+            <div class="detail-item">
+              <strong>From:</strong> {{ selectedMessage()!.name }} ({{ selectedMessage()!.email }})
+            </div>
+            <div class="detail-item">
+              <strong>Subject:</strong> {{ selectedMessage()!.subject }}
+            </div>
+            <div class="detail-item">
+              <strong>Date:</strong> {{ selectedMessage()!.createdAt | date:'medium' }}
+            </div>
+            <div class="detail-item">
+              <strong>Status:</strong> 
+              <span [class]="selectedMessage()!.isRead ? 'status-read' : 'status-unread'">
+                {{ selectedMessage()!.isRead ? 'Read' : 'Unread' }}
+              </span>
+            </div>
+            <div class="detail-message">
+              <strong>Message:</strong>
+              <p>{{ selectedMessage()!.message }}</p>
+            </div>
+            <div class="detail-actions">
+              @if (!selectedMessage()!.isRead) {
+                <button class="btn btn-secondary" (click)="markAsRead(selectedMessage()!.id!)">Mark as Read</button>
+              }
+              <button class="btn btn-danger" (click)="deleteMessage(selectedMessage()!.id!)">Delete</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

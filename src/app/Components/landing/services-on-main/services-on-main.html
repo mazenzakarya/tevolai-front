@@ -1,1 +1,22 @@
-<p>services-on-main works!</p>
+<section class="services-section section">
+  <div class="container">
+    <div class="section-header text-center">
+      <h2>Our Services</h2>
+      <p>Comprehensive solutions to power your digital presence</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="spinner"></div>
+    } @else {
+      <div class="services-grid grid grid-3">
+        @for (service of services(); track service.id) {
+          <div class="service-card card">
+            <div class="service-icon">{{ service.icon || '🚀' }}</div>
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
