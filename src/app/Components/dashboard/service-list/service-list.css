@@ -34,29 +34,19 @@
   white-space: nowrap;
 }
 
-.status-planning {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.status-progress {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.status-completed {
+.status-active {
   background: #d1fae5;
   color: #065f46;
 }
 
-.status-hold {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.status-cancelled {
+.status-suspended {
   background: #fee2e2;
   color: #991b1b;
+}
+
+.status-inprogress {
+  background: #fef3c7;
+  color: #92400e;
 }
 
 .service-description {
@@ -143,17 +133,56 @@
   gap: 1.5rem;
 }
 
-.form-row {
+.service-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.service-form .form-group label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.service-form .form-group input,
+.service-form .form-group textarea,
+.service-form .form-group select {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.service-form .form-group input:focus,
+.service-form .form-group textarea:focus,
+.service-form .form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.service-form .form-group input.error,
+.service-form .form-group textarea.error,
+.service-form .form-group select.error {
+  border-color: var(--danger-color);
+}
+
+.service-form .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.form-actions {
+.service-form .form-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
   margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
 }
 
 .empty-state {

@@ -7,6 +7,7 @@ import { ExpenseService } from '../../../Services/ExpenseService';
 import { CustomerService } from '../../../Services/CustomerService';
 import { ServicesOnDashBoardService } from '../../../Services/ServicesOnDashBoardService';
 import { ContactMessageService } from '../../../Services/ContactMessageService';
+import { SeoService } from '../../../Services/SeoService';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -27,10 +28,13 @@ export class DashboardPage implements OnInit {
     private expenseService: ExpenseService,
     private customerService: CustomerService,
     private servicesService: ServicesOnDashBoardService,
-    private contactMessageService: ContactMessageService
+    private contactMessageService: ContactMessageService,
+    private seoService: SeoService
   ) {}
 
   ngOnInit() {
+    // Prevent dashboard from being indexed by search engines
+    this.seoService.setDashboardNoIndex();
     this.loadDashboardData();
   }
 
@@ -38,14 +42,14 @@ export class DashboardPage implements OnInit {
     this.isLoading.set(true);
 
     // Load total revenue
-    this.revenueService.getTotalRevenues().subscribe({
-      next: (data) => this.totalRevenue.set(data),
+    this.revenueService.getTotalRevenuesAmount().subscribe({
+      next: (data) => this.totalRevenue.set(data.totalAmount),
       error: () => this.totalRevenue.set(0)
     });
 
     // Load expenses count
-    this.expenseService.getExpenseCount().subscribe({
-      next: (data) => this.totalExpenses.set(data),
+    this.expenseService.getTotalExpensesAmount().subscribe({
+      next: (data) => this.totalExpenses.set(data.totalAmount),
       error: () => this.totalExpenses.set(0)
     });
 

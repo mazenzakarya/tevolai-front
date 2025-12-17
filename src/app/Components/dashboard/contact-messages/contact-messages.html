@@ -22,7 +22,6 @@
               }
             </div>
             <p class="message-email">{{ message.email }}</p>
-            <p class="message-subject">{{ message.subject }}</p>
             <p class="message-preview">{{ message.message.substring(0, 100) }}...</p>
             <div class="message-footer">
               <span class="message-date">{{ message.createdAt | date:'short' }}</span>
@@ -43,9 +42,6 @@
           <div class="detail-content">
             <div class="detail-item">
               <strong>From:</strong> {{ selectedMessage()!.name }} ({{ selectedMessage()!.email }})
-            </div>
-            <div class="detail-item">
-              <strong>Subject:</strong> {{ selectedMessage()!.subject }}
             </div>
             <div class="detail-item">
               <strong>Date:</strong> {{ selectedMessage()!.createdAt | date:'medium' }}

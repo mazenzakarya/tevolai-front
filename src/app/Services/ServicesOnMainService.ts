@@ -10,8 +10,18 @@ import { ServicesOnMainDto } from '../models/services.models';
 export class ServicesOnMainService {
   constructor(private http: HttpClient) {}
 
-  getAllServices(): Observable<ServicesOnMainDto[]> {
-    return this.http.get<ServicesOnMainDto[]>(`${environment.apiUrl}/ServicesOnMain`);
+  getAllServices(language?: number): Observable<ServicesOnMainDto[]> {
+    const url = language !== undefined 
+      ? `${environment.apiUrl}/ServicesOnMain?language=${language}`
+      : `${environment.apiUrl}/ServicesOnMain`;
+    return this.http.get<ServicesOnMainDto[]>(url);
+  }
+
+  getServicesByLanguage(language: number): Observable<ServicesOnMainDto[]> {
+    // Backend endpoint: GetServicesOnMainByLanguage/{language}
+    // Language: 0 = English, 1 = Arabic
+    // Using route parameter format as per API documentation
+    return this.http.get<ServicesOnMainDto[]>(`${environment.apiUrl}/ServicesOnMain/GetServicesOnMainByLanguage/${language}`);
   }
 
   addService(service: ServicesOnMainDto): Observable<ServicesOnMainDto> {

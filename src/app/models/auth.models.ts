@@ -1,7 +1,7 @@
 export interface RegisterDto {
   email: string;
   password: string;
-  confirmPassword: string;
+  userName: string;
   firstName?: string;
   lastName?: string;
 }
@@ -12,7 +12,9 @@ export interface LoginDto {
 }
 
 export interface AuthResponse {
+  id?: string;
   token: string;
+  expiresIn?: number;
+  userName?: string;
   email: string;
-  expiresIn: number;
 }

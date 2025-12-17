@@ -10,25 +10,63 @@ import { Reveneu } from './Components/dashboard/reveneu/reveneu';
 import { Expense } from './Components/dashboard/expense/expense';
 import { ContactMessages } from './Components/dashboard/contact-messages/contact-messages';
 import { EmailCredentials } from './Components/dashboard/email-credentials/email-credentials';
+import { ServicesOnMainManagement } from './Components/dashboard/services-on-main/services-on-main';
+import { PrivacyPolicy } from './Components/legal/privacy-policy/privacy-policy';
+import { TermsOfService } from './Components/legal/terms-of-service/terms-of-service';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  // English routes
   {
     path: '',
-    component: LandingPage
+    component: LandingPage,
   },
   {
     path: 'login',
-    component: Login
+    component: Login,
   },
   {
     path: 'register',
-    component: Register
+    component: Register,
   },
   {
     path: 'contact',
-    component: ContactPage
+    component: ContactPage,
   },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicy,
+  },
+  {
+    path: 'terms-of-service',
+    component: TermsOfService,
+  },
+  // Arabic routes (/ar)
+  {
+    path: 'ar',
+    component: LandingPage,
+  },
+  {
+    path: 'ar/login',
+    component: Login,
+  },
+  {
+    path: 'ar/register',
+    component: Register,
+  },
+  {
+    path: 'ar/contact',
+    component: ContactPage,
+  },
+  {
+    path: 'ar/privacy-policy',
+    component: PrivacyPolicy,
+  },
+  {
+    path: 'ar/terms-of-service',
+    component: TermsOfService,
+  },
+  // Dashboard (language independent)
   {
     path: 'dashboard',
     component: DashboardPage,
@@ -37,36 +75,40 @@ export const routes: Routes = [
       {
         path: '',
         redirectTo: 'customers',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'customers',
-        component: Customer
+        component: Customer,
       },
       {
         path: 'services',
-        component: ServiceList
+        component: ServiceList,
       },
       {
         path: 'revenue',
-        component: Reveneu
+        component: Reveneu,
       },
       {
         path: 'expenses',
-        component: Expense
+        component: Expense,
       },
       {
         path: 'contact-messages',
-        component: ContactMessages
+        component: ContactMessages,
       },
       {
         path: 'email-credentials',
-        component: EmailCredentials
-      }
-    ]
+        component: EmailCredentials,
+      },
+      {
+        path: 'services-on-main',
+        component: ServicesOnMainManagement,
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];

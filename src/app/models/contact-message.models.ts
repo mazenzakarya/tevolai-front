@@ -2,10 +2,9 @@ export interface ContactMessageDto {
   id?: number;
   name: string;
   email: string;
-  subject: string;
   message: string;
+  createdAt?: string;
   isRead?: boolean;
-  createdAt?: Date;
 }
 
 export interface PagedContactMessages {

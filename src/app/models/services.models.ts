@@ -1,50 +1,59 @@
 export enum WebsiteCMS {
   WordPress = 0,
-  Shopify = 1,
-  Custom = 2,
-  Other = 3
+  DotNet = 1,
+  Joomla = 2,
+  Drupal = 3,
+  Custom = 4
 }
 
 export enum WebsiteStatus {
-  Planning = 0,
-  InProgress = 1,
-  Completed = 2,
-  OnHold = 3,
-  Cancelled = 4
+  Active = 0,
+  Suspended = 1,
+  InProgress = 2
 }
 
 export interface ServicesOnDashBoard {
   id?: number;
+  customerId: number;
   serviceName: string;
-  description?: string;
+  domain: string;
+  userName: string;
   cms: WebsiteCMS;
+  hostingServer?: string;
   status: WebsiteStatus;
-  customerId?: number;
-  startDate?: Date;
-  endDate?: Date;
-  price?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  notes?: string;
+  createdAt?: string;
+  isDeleted?: boolean;
 }
 
 export interface ServiesOnDashBoardDto {
   id?: number;
+  customerId: number;
   serviceName: string;
-  description?: string;
+  domain: string;
+  userName: string;
   cms: WebsiteCMS;
+  hostingServer?: string;
   status: WebsiteStatus;
-  customerId?: number;
-  startDate?: Date;
-  endDate?: Date;
-  price?: number;
+  notes?: string;
+  createdAt?: string;
+  isDeleted?: boolean;
+}
+
+export enum Language {
+  English = 0,
+  Arabic = 1
 }
 
 export interface ServicesOnMainDto {
   id?: number;
   title: string;
   description: string;
-  icon?: string;
+  price?: number;
   imageUrl?: string;
+  category?: string;
   isActive?: boolean;
-  order?: number;
+  language?: Language;
+  createdAt?: string;
+  isDeleted?: boolean;
 }

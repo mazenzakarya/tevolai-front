@@ -23,11 +23,11 @@ export class Customer implements OnInit {
     private fb: FormBuilder
   ) {
     this.customerForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      fullName: ['', [Validators.required]],
+      email: ['', [Validators.email]],
       phone: [''],
-      company: [''],
-      address: [''],
+      companyName: [''],
+      country: [''],
       notes: ['']
     });
   }

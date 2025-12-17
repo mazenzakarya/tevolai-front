@@ -20,29 +20,33 @@
         <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="expense-form">
           <div class="form-row">
             <div class="form-group">
+              <label>Title *</label>
+              <input formControlName="title" [class.error]="expenseForm.get('title')?.invalid && expenseForm.get('title')?.touched" />
+            </div>
+            <div class="form-group">
               <label>Amount *</label>
               <input type="number" formControlName="amount" min="0.01" step="0.01" [class.error]="expenseForm.get('amount')?.invalid && expenseForm.get('amount')?.touched" />
             </div>
+          </div>
+          <div class="form-row">
             <div class="form-group">
               <label>Date *</label>
-              <input type="date" formControlName="expenseDate" [class.error]="expenseForm.get('expenseDate')?.invalid && expenseForm.get('expenseDate')?.touched" />
+              <input type="date" formControlName="date" [class.error]="expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched" />
             </div>
-          </div>
-          <div class="form-group">
-            <label>Description *</label>
-            <input formControlName="description" [class.error]="expenseForm.get('description')?.invalid && expenseForm.get('description')?.touched" />
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select formControlName="category">
-              <option value="">Select Category</option>
-              <option value="Office Supplies">Office Supplies</option>
-              <option value="Software">Software</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Travel">Travel</option>
-              <option value="Utilities">Utilities</option>
-              <option value="Other">Other</option>
-            </select>
+            <div class="form-group">
+              <label>Category</label>
+              <select formControlName="category">
+                <option value="">Select Category</option>
+                <option value="Infrastructure">Infrastructure</option>
+                <option value="Domain">Domain</option>
+                <option value="Office Supplies">Office Supplies</option>
+                <option value="Software">Software</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Travel">Travel</option>
+                <option value="Utilities">Utilities</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
             <label>Notes</label>
@@ -65,7 +69,7 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th>Description</th>
+            <th>Title</th>
             <th>Category</th>
             <th>Amount</th>
             <th>Actions</th>
@@ -74,8 +78,8 @@
         <tbody>
           @for (expense of expenses(); track expense.id) {
             <tr>
-              <td>{{ expense.expenseDate | date:'shortDate' }}</td>
-              <td>{{ expense.description }}</td>
+              <td>{{ expense.date | date:'shortDate' }}</td>
+              <td>{{ expense.title }}</td>
               <td>{{ expense.category || '-' }}</td>
               <td>${{ expense.amount | number:'1.2-2' }}</td>
               <td>

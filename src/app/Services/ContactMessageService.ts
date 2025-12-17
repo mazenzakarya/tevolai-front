@@ -14,9 +14,9 @@ export class ContactMessageService {
     return this.http.post<ContactMessageDto>(`${environment.apiUrl}/ContactMessage/AddContactMessage`, message);
   }
 
-  getPagedContactMessages(pageNumber: number = 1, pageSize: number = 10): Observable<PagedContactMessages> {
+  getPagedContactMessages(page: number = 1, pageSize: number = 10): Observable<PagedContactMessages> {
     const params = new HttpParams()
-      .set('pageNumber', pageNumber.toString())
+      .set('page', page.toString())
       .set('pageSize', pageSize.toString());
     return this.http.get<PagedContactMessages>(`${environment.apiUrl}/ContactMessage/GetPagedContactMessages`, { params });
   }

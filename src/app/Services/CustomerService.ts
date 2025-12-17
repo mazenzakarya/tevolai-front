@@ -30,8 +30,8 @@ export class CustomerService {
     return this.http.get<Customer[]>(`${environment.apiUrl}/Customer/GetAllCustomers`);
   }
 
-  searchCustomers(searchTerm: string): Observable<Customer[]> {
-    const params = new HttpParams().set('searchTerm', searchTerm);
+  searchCustomers(query: string): Observable<Customer[]> {
+    const params = new HttpParams().set('query', query);
     return this.http.get<Customer[]>(`${environment.apiUrl}/Customer/SearchCustomers`, { params });
   }
 }

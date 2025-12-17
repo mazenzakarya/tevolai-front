@@ -46,7 +46,7 @@
               <select formControlName="customerId" [class.error]="revenueForm.get('customerId')?.invalid && revenueForm.get('customerId')?.touched">
                 <option value="">Select Customer</option>
                 @for (customer of customers(); track customer.id) {
-                  <option [value]="customer.id">{{ customer.name }}</option>
+                  <option [value]="customer.id">{{ customer.fullName }}</option>
                 }
               </select>
             </div>
@@ -76,10 +76,38 @@
   @if (isLoading()) {
     <div class="spinner"></div>
   } @else {
-    <div class="info-card card">
-      <h3>Revenue Overview</h3>
-      <p>Total revenue across all services: <strong>${{ totalRevenues() | number:'1.2-2' }}</strong></p>
-      <p class="info-text">Add revenue records to track payments from customers for your services.</p>
+    <div class="revenues-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Amount</th>
+            <th>Payment Method</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (revenue of revenues(); track revenue.id) {
+            <tr>
+              <td>{{ revenue.paymentDate | date:'shortDate' }}</td>
+              <td>{{ getCustomerName(revenue.customerId) }}</td>
+              <td>{{ getServiceName(revenue.serviceId) }}</td>
+              <td>${{ revenue.amount | number:'1.2-2' }}</td>
+              <td>{{ revenue.paymentMethod || '-' }}</td>
+              <td>
+                <button class="btn-icon" (click)="openEditForm(revenue)">✏️</button>
+                <button class="btn-icon btn-danger" (click)="deleteRevenue(revenue.id!)">🗑️</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">No revenues found. Add your first revenue record!</td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   }
 </div>

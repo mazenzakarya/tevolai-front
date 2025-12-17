@@ -21,8 +21,8 @@ export class ServiceList implements OnInit {
   serviceForm: FormGroup;
   cmsOptions = Object.values(WebsiteCMS).filter(v => typeof v === 'number');
   statusOptions = Object.values(WebsiteStatus).filter(v => typeof v === 'number');
-  cmsLabels = ['WordPress', 'Shopify', 'Custom', 'Other'];
-  statusLabels = ['Planning', 'In Progress', 'Completed', 'On Hold', 'Cancelled'];
+  cmsLabels = ['WordPress', 'DotNet', 'Joomla', 'Drupal', 'Custom'];
+  statusLabels = ['Active', 'Suspended', 'InProgress'];
 
   constructor(
     private servicesService: ServicesOnDashBoardService,
@@ -31,13 +31,13 @@ export class ServiceList implements OnInit {
   ) {
     this.serviceForm = this.fb.group({
       serviceName: ['', [Validators.required]],
-      description: [''],
+      domain: ['', [Validators.required]],
+      userName: ['', [Validators.required]],
       cms: [WebsiteCMS.WordPress, [Validators.required]],
-      status: [WebsiteStatus.Planning, [Validators.required]],
-      customerId: [''],
-      startDate: [''],
-      endDate: [''],
-      price: [0]
+      status: [WebsiteStatus.Active, [Validators.required]],
+      customerId: ['', [Validators.required]],
+      hostingServer: [''],
+      notes: ['']
     });
   }
 
@@ -72,9 +72,14 @@ export class ServiceList implements OnInit {
   openEditForm(service: ServicesOnDashBoard) {
     this.editingService.set(service);
     this.serviceForm.patchValue({
-      ...service,
-      startDate: service.startDate ? new Date(service.startDate).toISOString().split('T')[0] : '',
-      endDate: service.endDate ? new Date(service.endDate).toISOString().split('T')[0] : ''
+      serviceName: service.serviceName,
+      domain: service.domain || '',
+      userName: service.userName || '',
+      cms: service.cms,
+      status: service.status,
+      customerId: service.customerId || '',
+      hostingServer: service.hostingServer || '',
+      notes: service.notes || ''
     });
     this.showForm.set(true);
   }
@@ -124,7 +129,7 @@ export class ServiceList implements OnInit {
   }
 
   getStatusClass(status: number): string {
-    const classes = ['status-planning', 'status-progress', 'status-completed', 'status-hold', 'status-cancelled'];
+    const classes = ['status-active', 'status-suspended', 'status-inprogress'];
     return classes[status] || '';
   }
 }

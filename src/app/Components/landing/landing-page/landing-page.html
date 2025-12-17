@@ -3,38 +3,69 @@
     <div class="hero-content">
       <div class="hero-text">
         <h1 class="hero-title">
-          Build Your Digital Future with
-          <span class="gradient-text">Tevolai</span>
+          {{ t.heroTitle }}
+          <span class="gradient-text">{{ t.heroTitleHighlight }}</span>
         </h1>
         <p class="hero-description">
-          We transform your ideas into powerful web solutions. From custom websites to enterprise applications, 
-          we deliver excellence that drives your business forward.
+          {{ t.heroDescription }}
         </p>
         <div class="hero-actions">
-          <a routerLink="/register" class="btn btn-primary btn-large">Get Started Free</a>
-          <a routerLink="/services" class="btn btn-outline btn-large">Our Services</a>
+          <a routerLink="/register" class="btn btn-primary btn-large">{{ t.getStarted }}</a>
+          <a routerLink="/services" class="btn btn-outline btn-large">{{ t.ourServices }}</a>
         </div>
         <div class="hero-stats">
           <div class="stat-item">
             <div class="stat-number">500+</div>
-            <div class="stat-label">Projects Delivered</div>
+            <div class="stat-label">{{ t.projectsDelivered }}</div>
           </div>
           <div class="stat-item">
             <div class="stat-number">98%</div>
-            <div class="stat-label">Client Satisfaction</div>
+            <div class="stat-label">{{ t.clientSatisfaction }}</div>
           </div>
           <div class="stat-item">
             <div class="stat-number">24/7</div>
-            <div class="stat-label">Support Available</div>
+            <div class="stat-label">{{ t.supportAvailable }}</div>
           </div>
         </div>
       </div>
       <div class="hero-image">
         <div class="hero-graphic">
-          <div class="floating-card card-1">🚀</div>
-          <div class="floating-card card-2">💻</div>
-          <div class="floating-card card-3">⚡</div>
-          <div class="floating-card card-4">🎨</div>
+          <div class="code-window">
+            <div class="code-header">
+              <span class="code-dot"></span>
+              <span class="code-dot"></span>
+              <span class="code-dot"></span>
+              <span class="code-title">app.ts</span>
+            </div>
+            <div class="code-content">
+              <div class="code-line"><span class="code-keyword">const</span> <span class="code-var">future</span> = <span class="code-string">'Tevolai'</span>;</div>
+              <div class="code-line"><span class="code-keyword">const</span> <span class="code-var">innovation</span> = <span class="code-function">build</span>(<span class="code-string">'digital'</span>);</div>
+              <div class="code-line"><span class="code-keyword">return</span> <span class="code-var">excellence</span>;</div>
+            </div>
+          </div>
+          <div class="tech-badge badge-1">
+            <span class="badge-icon">⚡</span>
+            <span class="badge-text">Fast</span>
+          </div>
+          <div class="tech-badge badge-2">
+            <span class="badge-icon">🔒</span>
+            <span class="badge-text">Secure</span>
+          </div>
+          <div class="tech-badge badge-3">
+            <span class="badge-icon">🚀</span>
+            <span class="badge-text">Scalable</span>
+          </div>
+          <div class="tech-badge badge-4">
+            <span class="badge-icon">💎</span>
+            <span class="badge-text">Premium</span>
+          </div>
+          <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -48,11 +79,11 @@
 <section class="cta-section">
   <div class="container">
     <div class="cta-content">
-      <h2>Ready to Start Your Project?</h2>
-      <p>Let's discuss how we can help bring your vision to life</p>
+      <h2>{{ t.readyToStart }}</h2>
+      <p>{{ t.letsDiscuss }}</p>
       <div class="cta-actions">
-        <a routerLink="/contact" class="btn btn-primary btn-large">Contact Us</a>
-        <a routerLink="/register" class="btn btn-outline btn-large">Get Started</a>
+        <a routerLink="/contact" class="btn btn-primary btn-large">{{ t.contactUs }}</a>
+        <a routerLink="/register" class="btn btn-outline btn-large">{{ t.getStarted }}</a>
       </div>
     </div>
   </div>

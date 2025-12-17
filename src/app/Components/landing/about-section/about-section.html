@@ -2,40 +2,30 @@
   <div class="container">
     <div class="about-content">
       <div class="about-text">
-        <h2>About Tevolai</h2>
-        <p class="lead">
-          We are a passionate team of developers, designers, and strategists dedicated to 
-          transforming your digital vision into reality.
-        </p>
-        <p>
-          With years of experience in web development, we specialize in creating custom solutions 
-          that drive business growth. From small startups to large enterprises, we've helped 
-          hundreds of clients establish a strong online presence.
-        </p>
-        <p>
-          Our approach combines cutting-edge technology with user-centered design to deliver 
-          websites and applications that not only look great but perform exceptionally.
-        </p>
+        <h2>{{ t.title }}</h2>
+        <p class="lead">{{ t.lead }}</p>
+        <p>{{ t.description1 }}</p>
+        <p>{{ t.description2 }}</p>
         <div class="about-features">
           <div class="feature-item">
             <div class="feature-icon">✓</div>
             <div class="feature-text">
-              <strong>Expert Team</strong>
-              <span>Skilled professionals with years of experience</span>
+              <strong>{{ t.expertTeam }}</strong>
+              <span>{{ t.expertTeamDesc }}</span>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon">✓</div>
             <div class="feature-text">
-              <strong>Quality First</strong>
-              <span>We never compromise on quality and performance</span>
+              <strong>{{ t.qualityFirst }}</strong>
+              <span>{{ t.qualityFirstDesc }}</span>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon">✓</div>
             <div class="feature-text">
-              <strong>Client Focused</strong>
-              <span>Your success is our top priority</span>
+              <strong>{{ t.clientFocused }}</strong>
+              <span>{{ t.clientFocusedDesc }}</span>
             </div>
           </div>
         </div>
@@ -44,7 +34,7 @@
         <div class="image-placeholder">
           <div class="placeholder-content">
             <span class="placeholder-icon">🎯</span>
-            <p>Your Vision, Our Expertise</p>
+            <p>{{ t.visionText }}</p>
           </div>
         </div>
       </div>

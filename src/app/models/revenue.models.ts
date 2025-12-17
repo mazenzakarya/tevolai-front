@@ -10,10 +10,14 @@ export interface IRevenue {
 
 export interface RevenueDto {
   id?: number;
-  paymentDate: Date;
+  paymentDate: string;
   customerId: number;
   notes?: string;
   amount: number;
-  paymentMethod: string;
+  paymentMethod?: string;
   serviceId: number;
+}
+
+export interface TotalRevenuesResponse {
+  totalAmount: number;
 }

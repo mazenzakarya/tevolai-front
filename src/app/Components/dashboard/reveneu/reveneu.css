@@ -91,17 +91,92 @@
   gap: 1.5rem;
 }
 
-.form-row {
+.revenue-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.revenue-form .form-group label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.revenue-form .form-group input,
+.revenue-form .form-group textarea,
+.revenue-form .form-group select {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.revenue-form .form-group input:focus,
+.revenue-form .form-group textarea:focus,
+.revenue-form .form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.revenue-form .form-group input.error,
+.revenue-form .form-group textarea.error,
+.revenue-form .form-group select.error {
+  border-color: var(--danger-color);
+}
+
+.revenue-form .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
-.form-actions {
+.revenue-form .form-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
   margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.revenues-table {
+  overflow-x: auto;
+  margin-top: 2rem;
+}
+
+.revenues-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.revenues-table thead {
+  background: var(--bg-secondary);
+}
+
+.revenues-table th,
+.revenues-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.revenues-table th {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.revenues-table tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
+.revenues-table .empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
 }
 
 .info-card {

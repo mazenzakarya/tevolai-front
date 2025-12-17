@@ -1,15 +1,21 @@
 <section class="tech-section section">
   <div class="container">
     <div class="section-header text-center">
-      <h2>Technologies We Use</h2>
-      <p>Cutting-edge tools and frameworks for modern web development</p>
+      <h2 class="tech-title">
+        <span class="tech-bracket">&lt;</span>
+        Technologies We Master
+        <span class="tech-bracket">/&gt;</span>
+      </h2>
+      <p class="tech-subtitle">Cutting-edge tools and frameworks powering modern web solutions</p>
     </div>
     <div class="tech-grid grid grid-3">
       @for (tech of technologies; track tech.name) {
         <div class="tech-card card">
+          <div class="tech-glow"></div>
           <div class="tech-icon">{{ tech.icon }}</div>
           <h4>{{ tech.name }}</h4>
           <p>{{ tech.description }}</p>
+          <div class="tech-badge-mini">{{ tech.category }}</div>
         </div>
       }
     </div>

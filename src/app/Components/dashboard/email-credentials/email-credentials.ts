@@ -56,7 +56,11 @@ export class EmailCredentials implements OnInit {
     if (this.credentialForm.valid) {
       const credentialData: AddEmailCredentialRequest = this.credentialForm.value;
       if (this.editingCredential()) {
-        this.emailCredentialsService.updateCredential(this.editingCredential()!.id!, credentialData).subscribe({
+        const updateData = {
+          id: this.editingCredential()!.id!,
+          ...credentialData
+        };
+        this.emailCredentialsService.updateCredential(updateData).subscribe({
           next: () => {
             this.closeForm();
             alert('Email credentials updated successfully!');

@@ -16,14 +16,20 @@
             <label>Service Name *</label>
             <input formControlName="serviceName" [class.error]="serviceForm.get('serviceName')?.invalid && serviceForm.get('serviceName')?.touched" />
           </div>
-          <div class="form-group">
-            <label>Description</label>
-            <textarea formControlName="description" rows="3"></textarea>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Domain *</label>
+              <input formControlName="domain" [class.error]="serviceForm.get('domain')?.invalid && serviceForm.get('domain')?.touched" />
+            </div>
+            <div class="form-group">
+              <label>User Name *</label>
+              <input formControlName="userName" [class.error]="serviceForm.get('userName')?.invalid && serviceForm.get('userName')?.touched" />
+            </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>CMS *</label>
-              <select formControlName="cms">
+              <label>Technology *</label>
+              <select formControlName="cms" [class.error]="serviceForm.get('cms')?.invalid && serviceForm.get('cms')?.touched">
                 @for (cms of cmsOptions; track cms) {
                   <option [value]="cms">{{ cmsLabels[cms] }}</option>
                 }
@@ -31,7 +37,7 @@
             </div>
             <div class="form-group">
               <label>Status *</label>
-              <select formControlName="status">
+              <select formControlName="status" [class.error]="serviceForm.get('status')?.invalid && serviceForm.get('status')?.touched">
                 @for (status of statusOptions; track status) {
                   <option [value]="status">{{ statusLabels[status] }}</option>
                 }
@@ -40,28 +46,22 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>Customer</label>
-              <select formControlName="customerId">
+              <label>Customer *</label>
+              <select formControlName="customerId" [class.error]="serviceForm.get('customerId')?.invalid && serviceForm.get('customerId')?.touched">
                 <option value="">Select Customer</option>
                 @for (customer of customers(); track customer.id) {
-                  <option [value]="customer.id">{{ customer.name }}</option>
+                  <option [value]="customer.id">{{ customer.fullName }}</option>
                 }
               </select>
             </div>
             <div class="form-group">
-              <label>Price</label>
-              <input type="number" formControlName="price" min="0" step="0.01" />
+              <label>Hosting Server</label>
+              <input formControlName="hostingServer" />
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Start Date</label>
-              <input type="date" formControlName="startDate" />
-            </div>
-            <div class="form-group">
-              <label>End Date</label>
-              <input type="date" formControlName="endDate" />
-            </div>
+          <div class="form-group">
+            <label>Notes</label>
+            <textarea formControlName="notes" rows="3"></textarea>
           </div>
           <div class="form-actions">
             <button type="button" class="btn btn-outline" (click)="closeForm()">Cancel</button>
@@ -84,19 +84,24 @@
               {{ getStatusLabel(service.status) }}
             </span>
           </div>
-          <p class="service-description">{{ service.description || 'No description' }}</p>
           <div class="service-details">
             <div class="detail-item">
-              <strong>CMS:</strong> {{ getCMSLabel(service.cms) }}
+              <strong>Domain:</strong> {{ service.domain }}
             </div>
-            @if (service.price) {
+            <div class="detail-item">
+              <strong>Technology:</strong> {{ getCMSLabel(service.cms) }}
+            </div>
+            <div class="detail-item">
+              <strong>User:</strong> {{ service.userName }}
+            </div>
+            @if (service.hostingServer) {
               <div class="detail-item">
-                <strong>Price:</strong> ${{ service.price | number:'1.2-2' }}
+                <strong>Hosting:</strong> {{ service.hostingServer }}
               </div>
             }
-            @if (service.startDate) {
+            @if (service.notes) {
               <div class="detail-item">
-                <strong>Start:</strong> {{ service.startDate | date:'shortDate' }}
+                <strong>Notes:</strong> {{ service.notes }}
               </div>
             }
           </div>

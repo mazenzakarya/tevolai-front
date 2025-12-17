@@ -1,21 +1,21 @@
 export interface Customer {
   id?: number;
-  name: string;
-  email: string;
+  fullName: string;
+  email?: string;
   phone?: string;
-  company?: string;
-  address?: string;
+  companyName?: string;
+  country?: string;
   notes?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
 }
 
 export interface CustomerDto {
   id?: number;
-  name: string;
-  email: string;
+  fullName: string;
+  email?: string;
   phone?: string;
-  company?: string;
-  address?: string;
+  companyName?: string;
+  country?: string;
   notes?: string;
+  createdAt?: string;
 }

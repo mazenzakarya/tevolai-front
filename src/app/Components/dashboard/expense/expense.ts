@@ -17,6 +17,9 @@ export class Expense implements OnInit {
   editingExpense = signal<ExpenseDto | null>(null);
   expenseForm: FormGroup;
   totalExpenses = signal<number>(0);
+  currentPage = signal(1);
+  pageSize = signal(10);
+  totalPages = signal(0);
 
   constructor(
     private expenseService: ExpenseService,
@@ -24,9 +27,9 @@ export class Expense implements OnInit {
   ) {
     this.expenseForm = this.fb.group({
       amount: [0, [Validators.required, Validators.min(0.01)]],
-      description: ['', [Validators.required]],
+      title: ['', [Validators.required]],
       category: [''],
-      expenseDate: [new Date().toISOString().split('T')[0], [Validators.required]],
+      date: [new Date().toISOString().split('T')[0], [Validators.required]],
       notes: ['']
     });
   }
@@ -37,20 +40,26 @@ export class Expense implements OnInit {
 
   loadExpenses() {
     this.isLoading.set(true);
-    this.expenseService.getAllExpenses().subscribe({
+    this.expenseService.getAllExpenses(this.currentPage(), this.pageSize()).subscribe({
       next: (data) => {
-        this.expenses.set(data);
-        this.totalExpenses.set(data.reduce((sum, exp) => sum + exp.amount, 0));
+        const items = data?.items || [];
+        this.expenses.set(items);
+        this.totalPages.set(data?.totalPages || 0);
+        this.totalExpenses.set(items.reduce((sum, exp) => sum + (exp.amount || 0), 0));
         this.isLoading.set(false);
       },
-      error: () => this.isLoading.set(false)
+      error: () => {
+        this.expenses.set([]);
+        this.totalExpenses.set(0);
+        this.isLoading.set(false);
+      }
     });
   }
 
   openAddForm() {
     this.editingExpense.set(null);
     this.expenseForm.reset({
-      expenseDate: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split('T')[0],
       amount: 0
     });
     this.showForm.set(true);
@@ -60,7 +69,7 @@ export class Expense implements OnInit {
     this.editingExpense.set(expense);
     this.expenseForm.patchValue({
       ...expense,
-      expenseDate: new Date(expense.expenseDate).toISOString().split('T')[0]
+      date: expense.date ? expense.date.split('T')[0] : new Date().toISOString().split('T')[0]
     });
     this.showForm.set(true);
   }
@@ -75,7 +84,7 @@ export class Expense implements OnInit {
     if (this.expenseForm.valid) {
       const expenseData: ExpenseDto = {
         ...this.expenseForm.value,
-        expenseDate: new Date(this.expenseForm.value.expenseDate)
+        date: new Date(this.expenseForm.value.date).toISOString()
       };
       if (this.editingExpense()) {
         expenseData.id = this.editingExpense()!.id;

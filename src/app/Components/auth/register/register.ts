@@ -25,6 +25,7 @@ export class Register {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
+      userName: ['', [Validators.required]],
       firstName: [''],
       lastName: ['']
     }, { validators: this.passwordMatchValidator });
@@ -46,7 +47,8 @@ export class Register {
       this.errorMessage.set(null);
       this.successMessage.set(null);
 
-      this.authService.register(this.registerForm.value).subscribe({
+      const { confirmPassword, ...registerData } = this.registerForm.value;
+      this.authService.register(registerData).subscribe({
         next: (response) => {
           this.successMessage.set('Registration successful! Redirecting...');
           this.authService.setToken(response.token);

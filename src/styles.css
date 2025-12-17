@@ -39,6 +39,19 @@ body {
   line-height: 1.6;
 }
 
+/* Arabic Font Support */
+[dir="rtl"],
+[lang="ar"] {
+  font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+[dir="rtl"] *,
+[lang="ar"] * {
+  font-family: inherit;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
@@ -137,6 +150,8 @@ input, textarea, select {
   font-family: inherit;
   font-size: 1rem;
   transition: var(--transition);
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 input:focus, textarea:focus, select:focus {
@@ -145,11 +160,55 @@ input:focus, textarea:focus, select:focus {
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
+input.error, textarea.error, select.error {
+  border-color: var(--danger-color);
+}
+
+input.error:focus, textarea.error:focus, select.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
 label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: var(--text-primary);
+}
+
+/* Form Styles */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {

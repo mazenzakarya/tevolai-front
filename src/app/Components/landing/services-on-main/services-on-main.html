@@ -1,22 +1,37 @@
 <section class="services-section section">
   <div class="container">
     <div class="section-header text-center">
-      <h2>Our Services</h2>
-      <p>Comprehensive solutions to power your digital presence</p>
+      <h2>{{ currentLanguage() === 'ar' ? 'خدماتنا' : 'Our Services' }}</h2>
+      <p>{{ currentLanguage() === 'ar' ? 'حلول شاملة لتعزيز وجودك الرقمي' : 'Comprehensive solutions to power your digital presence' }}</p>
     </div>
 
     @if (isLoading()) {
       <div class="spinner"></div>
     } @else {
-      <div class="services-grid grid grid-3">
-        @for (service of services(); track service.id) {
-          <div class="service-card card">
-            <div class="service-icon">{{ service.icon || '🚀' }}</div>
-            <h3>{{ service.title }}</h3>
-            <p>{{ service.description }}</p>
-          </div>
-        }
-      </div>
+      @if (services().length === 0) {
+        <div class="empty-state">
+          <p>{{ currentLanguage() === 'ar' ? 'لا توجد خدمات متاحة حالياً' : 'No services available at the moment' }}</p>
+        </div>
+      } @else {
+        <div class="services-grid grid grid-3">
+          @for (service of services(); track service.id) {
+            <div class="service-card card">
+              @if (service.imageUrl) {
+                <div class="service-image">
+                  <img [src]="service.imageUrl" [alt]="service.title" />
+                </div>
+              } @else {
+                <div class="service-icon">🚀</div>
+              }
+              <h3>{{ service.title }}</h3>
+              <p>{{ service.description }}</p>
+              @if (service.price) {
+                <div class="service-price">${{ service.price | number:'1.2-2' }}</div>
+              }
+            </div>
+          }
+        </div>
+      }
     }
   </div>
 </section>

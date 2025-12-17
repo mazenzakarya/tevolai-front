@@ -23,6 +23,7 @@ export class Reveneu implements OnInit {
   showForm = signal(false);
   editingRevenue = signal<RevenueDto | null>(null);
   revenueForm: FormGroup;
+  private revenueStorageKey = 'tevolai_revenues';
 
   constructor(
     private revenueService: RevenueService,
@@ -48,17 +49,38 @@ export class Reveneu implements OnInit {
   }
 
   loadRevenues() {
-    // Note: API doesn't have GetAllRevenues, so we'll need to track them locally
-    // For now, we'll show total only
+    // Load from localStorage since API doesn't have GetAllRevenues
+    const stored = localStorage.getItem(this.revenueStorageKey);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        this.revenues.set(parsed);
+      } catch {
+        this.revenues.set([]);
+      }
+    } else {
+      this.revenues.set([]);
+    }
+  }
+
+  private saveRevenues() {
+    localStorage.setItem(this.revenueStorageKey, JSON.stringify(this.revenues()));
   }
 
   loadTotalRevenues() {
-    this.revenueService.getTotalRevenues().subscribe({
-      next: (value) => {
-        this.totalRevenues.set(value);
+    this.revenueService.getTotalRevenuesAmount().subscribe({
+      next: (data) => {
+        // Calculate from local list if available, otherwise use API total
+        const localTotal = this.revenues().reduce((sum, r) => sum + (r.amount || 0), 0);
+        this.totalRevenues.set(localTotal > 0 ? localTotal : data.totalAmount);
         this.isLoading.set(false);
       },
-      error: () => this.isLoading.set(false)
+      error: () => {
+        // Fallback to local calculation
+        const localTotal = this.revenues().reduce((sum, r) => sum + (r.amount || 0), 0);
+        this.totalRevenues.set(localTotal);
+        this.isLoading.set(false);
+      }
     });
   }
 
@@ -87,7 +109,7 @@ export class Reveneu implements OnInit {
     this.editingRevenue.set(revenue);
     this.revenueForm.patchValue({
       ...revenue,
-      paymentDate: new Date(revenue.paymentDate).toISOString().split('T')[0]
+      paymentDate: revenue.paymentDate ? (typeof revenue.paymentDate === 'string' ? revenue.paymentDate.split('T')[0] : new Date(revenue.paymentDate).toISOString().split('T')[0]) : new Date().toISOString().split('T')[0]
     });
     this.showForm.set(true);
   }
@@ -102,12 +124,18 @@ export class Reveneu implements OnInit {
     if (this.revenueForm.valid) {
       const revenueData: RevenueDto = {
         ...this.revenueForm.value,
-        paymentDate: new Date(this.revenueForm.value.paymentDate)
+        customerId: parseInt(this.revenueForm.value.customerId, 10),
+        serviceId: parseInt(this.revenueForm.value.serviceId, 10),
+        paymentDate: new Date(this.revenueForm.value.paymentDate).toISOString()
       };
       if (this.editingRevenue()) {
         revenueData.id = this.editingRevenue()!.id;
         this.revenueService.editRevenue(revenueData).subscribe({
           next: () => {
+            this.revenues.update(revs => 
+              revs.map(r => r.id === revenueData.id ? revenueData : r)
+            );
+            this.saveRevenues();
             this.loadTotalRevenues();
             this.closeForm();
           }
@@ -115,6 +143,10 @@ export class Reveneu implements OnInit {
       } else {
         this.revenueService.addRevenue(revenueData).subscribe({
           next: () => {
+            // Generate a temporary ID for local tracking
+            revenueData.id = Date.now();
+            this.revenues.update(revs => [...revs, revenueData]);
+            this.saveRevenues();
             this.loadTotalRevenues();
             this.closeForm();
           }
@@ -126,8 +158,24 @@ export class Reveneu implements OnInit {
   deleteRevenue(id: number) {
     if (confirm('Are you sure you want to delete this revenue record?')) {
       this.revenueService.deleteRevenue(id).subscribe({
-        next: () => this.loadTotalRevenues()
+        next: () => {
+          this.revenues.update(revs => revs.filter(r => r.id !== id));
+          this.saveRevenues();
+          this.loadTotalRevenues();
+        }
       });
     }
+  }
+
+  getCustomerName(customerId: number | string): string {
+    const id = typeof customerId === 'string' ? parseInt(customerId, 10) : customerId;
+    const customer = this.customers().find(c => c.id === id);
+    return customer?.fullName || 'Unknown';
+  }
+
+  getServiceName(serviceId: number | string): string {
+    const id = typeof serviceId === 'string' ? parseInt(serviceId, 10) : serviceId;
+    const service = this.services().find(s => s.id === id);
+    return service?.serviceName || 'Unknown';
   }
 }
