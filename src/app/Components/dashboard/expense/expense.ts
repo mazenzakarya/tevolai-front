@@ -8,7 +8,7 @@ import { ExpenseDto } from '../../../models/expense.models';
   selector: 'app-expense',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './expense.html',
-  styleUrl: './expense.css'
+  styleUrl: './expense.css',
 })
 export class Expense implements OnInit {
   expenses = signal<ExpenseDto[]>([]);
@@ -22,16 +22,13 @@ export class Expense implements OnInit {
   pageSize = signal(10); // Default to 10 items per page
   totalPages = signal(0);
 
-  constructor(
-    private expenseService: ExpenseService,
-    private fb: FormBuilder
-  ) {
+  constructor(private expenseService: ExpenseService, private fb: FormBuilder) {
     this.expenseForm = this.fb.group({
       amount: [0, [Validators.required, Validators.min(0.01)]],
       title: ['', [Validators.required]],
       category: [''],
       date: [new Date().toISOString().split('T')[0], [Validators.required]],
-      notes: ['']
+      notes: [''],
     });
   }
 
@@ -59,7 +56,7 @@ export class Expense implements OnInit {
         } else if (data?.data && Array.isArray(data.data)) {
           allItems = data.data;
         }
-        
+
         this.allExpenses.set(allItems);
         this.totalExpenses.set(allItems.reduce((sum, exp) => sum + (exp.amount || 0), 0));
         this.updatePagination();
@@ -71,7 +68,7 @@ export class Expense implements OnInit {
         this.totalExpenses.set(0);
         this.totalPages.set(0);
         this.isLoading.set(false);
-      }
+      },
     });
   }
 
@@ -79,16 +76,16 @@ export class Expense implements OnInit {
     const allItems = this.allExpenses();
     const pageSize = this.pageSize();
     const currentPage = this.currentPage();
-    
+
     // Calculate total pages
     const totalPages = Math.ceil(allItems.length / pageSize);
     this.totalPages.set(totalPages);
-    
+
     // Get items for current page
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const pageItems = allItems.slice(startIndex, endIndex);
-    
+
     this.expenses.set(pageItems);
   }
 
@@ -96,7 +93,7 @@ export class Expense implements OnInit {
     this.editingExpense.set(null);
     this.expenseForm.reset({
       date: new Date().toISOString().split('T')[0],
-      amount: 0
+      amount: 0,
     });
     this.showForm.set(true);
   }
@@ -105,7 +102,7 @@ export class Expense implements OnInit {
     this.editingExpense.set(expense);
     this.expenseForm.patchValue({
       ...expense,
-      date: expense.date ? expense.date.split('T')[0] : new Date().toISOString().split('T')[0]
+      date: expense.date ? expense.date.split('T')[0] : new Date().toISOString().split('T')[0],
     });
     this.showForm.set(true);
   }
@@ -120,7 +117,7 @@ export class Expense implements OnInit {
     if (this.expenseForm.valid) {
       const expenseData: ExpenseDto = {
         ...this.expenseForm.value,
-        date: new Date(this.expenseForm.value.date).toISOString()
+        date: new Date(this.expenseForm.value.date).toISOString(),
       };
       if (this.editingExpense()) {
         expenseData.id = this.editingExpense()!.id;
@@ -129,7 +126,7 @@ export class Expense implements OnInit {
             this.allExpenses.set([]); // Clear cache to force reload
             this.loadExpenses();
             this.closeForm();
-          }
+          },
         });
       } else {
         this.expenseService.addExpense(expenseData).subscribe({
@@ -137,7 +134,7 @@ export class Expense implements OnInit {
             this.allExpenses.set([]); // Clear cache to force reload
             this.loadExpenses();
             this.closeForm();
-          }
+          },
         });
       }
     }
@@ -149,7 +146,7 @@ export class Expense implements OnInit {
         next: () => {
           this.allExpenses.set([]); // Clear cache to force reload
           this.loadExpenses();
-        }
+        },
       });
     }
   }
@@ -172,22 +169,22 @@ export class Expense implements OnInit {
     const total = this.totalPages();
     const current = this.currentPage();
     const maxVisible = 7; // Maximum number of page buttons to show
-    
+
     if (total <= maxVisible) {
       // Show all pages if total is small
       return Array.from({ length: total }, (_, i) => i + 1);
     }
-    
+
     // Calculate range around current page
     const half = Math.floor(maxVisible / 2);
     let start = Math.max(1, current - half);
     let end = Math.min(total, start + maxVisible - 1);
-    
+
     // Adjust start if we're near the end
     if (end - start + 1 < maxVisible) {
       start = Math.max(1, end - maxVisible + 1);
     }
-    
+
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
   }
 }

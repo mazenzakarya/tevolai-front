@@ -26,8 +26,7 @@ export class Register {
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
       userName: ['', [Validators.required]],
-      firstName: [''],
-      lastName: ['']
+      fullName: [''],
     }, { validators: this.passwordMatchValidator });
   }
 
