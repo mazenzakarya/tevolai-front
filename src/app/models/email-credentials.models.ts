@@ -1,15 +1,22 @@
 export interface EmailCredential {
   id?: number;
-  email: string;
-  password: string;
-  smtpServer?: string;
-  smtpPort?: number;
-  isActive?: boolean;
+  customerId?: number;
+  emailAddress: string;
+  password?: string;
+  decryptedPassword?: string;
+  userName?: string;
+  hostingPlatform?: string;
+  notes?: string;
+  createdAt?: string;
+  lastUsedAt?: string;
+  auditLog?: string;
 }
 
 export interface AddEmailCredentialRequest {
-  email: string;
+  customerId?: number;
+  emailAddress: string;
   password: string;
-  smtpServer?: string;
-  smtpPort?: number;
+  userName?: string;
+  hostingPlatform?: string;
+  notes?: string;
 }

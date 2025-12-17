@@ -72,6 +72,7 @@
             <th>Title</th>
             <th>Category</th>
             <th>Amount</th>
+            <th>Notes</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -82,6 +83,7 @@
               <td>{{ expense.title }}</td>
               <td>{{ expense.category || '-' }}</td>
               <td>${{ expense.amount | number:'1.2-2' }}</td>
+              <td>{{ expense.notes || '-' }}</td>
               <td>
                 <button class="btn-icon" (click)="openEditForm(expense)">✏️</button>
                 <button class="btn-icon btn-danger" (click)="deleteExpense(expense.id!)">🗑️</button>
@@ -89,11 +91,56 @@
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" class="empty-state">No expenses found</td>
+              <td colspan="6" class="empty-state">No expenses found</td>
             </tr>
           }
         </tbody>
       </table>
     </div>
+
+    <!-- Pagination Controls -->
+    @if (totalPages() > 1 || expenses().length > 0) {
+    <div class="pagination">
+      <div class="page-size-selector">
+        <label>Show:</label>
+        <select (change)="changePageSize($any($event.target).value)" class="page-size-select">
+          <option [value]="10" [selected]="pageSize() === 10">10</option>
+        </select>
+      </div>
+      
+      <div class="page-numbers">
+        <button 
+          class="btn btn-outline page-btn" 
+          (click)="goToPage(currentPage() - 1)" 
+          [disabled]="currentPage() <= 1"
+          [class.disabled]="currentPage() <= 1">
+          ‹
+        </button>
+        
+        @for (page of getVisiblePages(); track page) {
+          <button 
+            class="btn page-btn" 
+            [class.active]="page === currentPage()"
+            [class.btn-primary]="page === currentPage()"
+            [class.btn-outline]="page !== currentPage()"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        }
+        
+        <button 
+          class="btn btn-outline page-btn" 
+          (click)="goToPage(currentPage() + 1)" 
+          [disabled]="currentPage() >= totalPages()"
+          [class.disabled]="currentPage() >= totalPages()">
+          ›
+        </button>
+      </div>
+      
+      <span class="page-info">
+        {{ expenses().length }} items (Page {{ currentPage() }} of {{ totalPages() }})
+      </span>
+    </div>
+    }
   }
 </div>
