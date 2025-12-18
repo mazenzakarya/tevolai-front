@@ -28,8 +28,17 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 
-  setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
+  setToken(token: string | any): void {
+    let tokenString: string;
+    if (typeof token === 'string') {
+      tokenString = token;
+    } else if (typeof token === 'object' && token) {
+      // If token is an object, try to extract the actual token string
+      tokenString = token.token || token.access_token || token.jwt || JSON.stringify(token);
+    } else {
+      return;
+    }
+    localStorage.setItem(this.tokenKey, tokenString);
   }
 
   isAuthenticated(): boolean {
@@ -56,22 +65,18 @@ export class AuthService {
 
   hasRole(role: string): boolean {
     const target = (role || '').toLowerCase();
-    return this.getRoles().some((r) => (r || '').toLowerCase() === target);
+    const roles = this.getRoles();
+    return roles.some((r) => (r || '').toLowerCase() === target);
   }
 
   private decodeJwtPayload(token: string): any | null {
     try {
       const parts = token.split('.');
-      if (parts.length < 2) return null;
+      if (parts.length !== 3) return null;
       const base64Url = parts[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
-      const json = decodeURIComponent(
-        atob(padded)
-          .split('')
-          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
-      );
+      const json = atob(padded);
       return JSON.parse(json);
     } catch {
       return null;

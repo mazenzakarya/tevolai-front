@@ -8,21 +8,17 @@ import { AuthService } from '../../../Services/AuthService';
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
   loginForm: FormGroup;
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -39,7 +35,7 @@ export class Login {
         error: (error) => {
           this.errorMessage.set(error.error?.message || 'Login failed. Please try again.');
           this.isLoading.set(false);
-        }
+        },
       });
     }
   }
