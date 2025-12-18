@@ -11,9 +11,11 @@ import { Expense } from './Components/dashboard/expense/expense';
 import { ContactMessages } from './Components/dashboard/contact-messages/contact-messages';
 import { EmailCredentials } from './Components/dashboard/email-credentials/email-credentials';
 import { ServicesOnMainManagement } from './Components/dashboard/services-on-main/services-on-main';
+import { Users } from './Components/dashboard/users/users';
 import { PrivacyPolicy } from './Components/legal/privacy-policy/privacy-policy';
 import { TermsOfService } from './Components/legal/terms-of-service/terms-of-service';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   // English routes
@@ -74,12 +76,13 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'customers',
+        redirectTo: 'services',
         pathMatch: 'full',
       },
       {
         path: 'customers',
         component: Customer,
+        canActivate: [adminGuard],
       },
       {
         path: 'services',
@@ -88,23 +91,33 @@ export const routes: Routes = [
       {
         path: 'revenue',
         component: Reveneu,
+        canActivate: [adminGuard],
       },
       {
         path: 'expenses',
         component: Expense,
+        canActivate: [adminGuard],
       },
       {
         path: 'contact-messages',
         component: ContactMessages,
+        canActivate: [adminGuard],
       },
       {
         path: 'email-credentials',
         component: EmailCredentials,
+        canActivate: [adminGuard],
       },
       {
         path: 'services-on-main',
         component: ServicesOnMainManagement,
+        canActivate: [adminGuard],
       },
+          {
+            path: 'users',
+            component: Users,
+        canActivate: [adminGuard],
+          },
     ],
   },
   {

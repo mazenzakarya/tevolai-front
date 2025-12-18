@@ -35,4 +35,46 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
+
+  getRoles(): string[] {
+    const token = this.getToken();
+    if (!token) return [];
+
+    const payload = this.decodeJwtPayload(token);
+    if (!payload) return [];
+
+    const roleClaim =
+      payload['role'] ??
+      payload['roles'] ??
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+    if (!roleClaim) return [];
+    if (Array.isArray(roleClaim)) return roleClaim.filter((r) => typeof r === 'string');
+    if (typeof roleClaim === 'string') return [roleClaim];
+    return [];
+  }
+
+  hasRole(role: string): boolean {
+    const target = (role || '').toLowerCase();
+    return this.getRoles().some((r) => (r || '').toLowerCase() === target);
+  }
+
+  private decodeJwtPayload(token: string): any | null {
+    try {
+      const parts = token.split('.');
+      if (parts.length < 2) return null;
+      const base64Url = parts[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4);
+      const json = decodeURIComponent(
+        atob(padded)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      return JSON.parse(json);
+    } catch {
+      return null;
+    }
+  }
 }
