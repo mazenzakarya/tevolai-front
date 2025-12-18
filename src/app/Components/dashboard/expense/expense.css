@@ -191,6 +191,64 @@ tbody tr:hover {
   color: var(--text-secondary);
 }
 
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.page-size-selector label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.page-size-select {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+.page-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.page-btn {
+  min-width: 40px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.page-btn.active {
+  font-weight: 600;
+}
+
+.page-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
 @media (max-width: 768px) {
   .expense-page {
     padding: 1rem;
@@ -205,11 +263,23 @@ tbody tr:hover {
     grid-template-columns: 1fr;
   }
 
-  table {
-    font-size: 0.875rem;
+  .pagination {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
   }
 
-  th, td {
-    padding: 0.5rem;
+  .page-size-selector {
+    order: -1;
+    justify-content: center;
   }
-}
+
+  .page-numbers {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .page-info {
+    text-align: center;
+    order: 1;
+  }

@@ -2,8 +2,7 @@ export interface RegisterDto {
   email: string;
   password: string;
   userName: string;
-  firstName?: string;
-  lastName?: string;
+  fullName?: string;
 }
 
 export interface LoginDto {

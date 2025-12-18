@@ -14,7 +14,7 @@
           <div class="stat-card card">
             <div class="stat-icon revenue">💰</div>
             <div class="stat-content">
-              <h3>Total Revenue</h3>
+              <h3>Net profit</h3>
               <p class="stat-value">${{ totalRevenue() | number:'1.2-2' }}</p>
             </div>
           </div>
@@ -23,7 +23,7 @@
             <div class="stat-icon expense">💸</div>
             <div class="stat-content">
               <h3>Total Expenses</h3>
-              <p class="stat-value">{{ totalExpenses() }}</p>
+              <p class="stat-value">{{ totalExpenses() | currency }}</p>
             </div>
           </div>
 
@@ -51,6 +51,7 @@
               <h3>Users</h3>
               <p class="stat-value">{{ totalUsers() }}</p>
             </div>
+          </div>
           </div>
         </div>
 

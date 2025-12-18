@@ -22,11 +22,11 @@ export class ExpenseService {
     return this.http.delete<void>(`${environment.apiUrl}/Expense/${id}`);
   }
 
-  getAllExpenses(pageNumber: number = 1, pageSize: number = 10): Observable<PagedExpenses> {
+  getAllExpenses(pageNumber: number = 1, pageSize: number = 10): Observable<any> {
     const params = new HttpParams()
       .set('pageNumper', pageNumber.toString())
       .set('pageSize', pageSize.toString());
-    return this.http.get<PagedExpenses>(`${environment.apiUrl}/Expense`, { params });
+    return this.http.get<any>(`${environment.apiUrl}/Expense`, { params });
   }
 
   getExpenseById(id: number): Observable<ExpenseDto> {
