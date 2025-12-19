@@ -18,8 +18,12 @@ export class ServicesOnDashBoardService {
     return this.http.get<ServicesOnDashBoard[]>(`${environment.apiUrl}/ServicesOnDashBoard/GetAllServicesOnDashBoard`);
   }
 
-  getServiceById(id: number): Observable<ServicesOnDashBoard> {
+  getServiceById(id: string): Observable<ServicesOnDashBoard> {
     return this.http.get<ServicesOnDashBoard>(`${environment.apiUrl}/ServicesOnDashBoard/GetServiceOnDashBoardById/${id}`);
+  }
+
+  getServicesByUserId(userId: string): Observable<ServicesOnDashBoard[]> {
+    return this.http.get<ServicesOnDashBoard[]>(`${environment.apiUrl}/ServicesOnDashBoard/GetServicesByUserId/${userId}`);
   }
 
   deleteService(id: number): Observable<void> {

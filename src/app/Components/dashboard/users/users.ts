@@ -34,16 +34,14 @@ export class Users implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       userName: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      firstName: [''],
-      lastName: [''],
+      fullName: [''],
       phoneNumber: [''],
     });
 
     this.editForm = this.fb.group({
       email: ['', [Validators.email]],
       userName: [''],
-      firstName: [''],
-      lastName: [''],
+      fullName: [''],
       phoneNumber: [''],
     });
 
@@ -105,8 +103,7 @@ export class Users implements OnInit {
     this.editForm.patchValue({
       email: user.email || '',
       userName: user.userName || '',
-      firstName: user.firstName || '',
-      lastName: user.lastName || '',
+      fullName: user.fullName || '',
       phoneNumber: user.phoneNumber || '',
     });
   }
@@ -246,5 +243,3 @@ export class Users implements OnInit {
     });
   }
 }
-
-

@@ -8,7 +8,7 @@ import { AuthService } from '../../../Services/AuthService';
   selector: 'app-register',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.html',
-  styleUrl: './register.css'
+  styleUrl: './register.css',
 })
 export class Register {
   registerForm: FormGroup;
@@ -16,18 +16,18 @@ export class Register {
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-      userName: ['', [Validators.required]],
-      fullName: [''],
-    }, { validators: this.passwordMatchValidator });
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.registerForm = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
+        userName: ['', [Validators.required]],
+        fullName: [''],
+        phoneNumber: [''],
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -58,7 +58,7 @@ export class Register {
         error: (error) => {
           this.errorMessage.set(error.error?.message || 'Registration failed. Please try again.');
           this.isLoading.set(false);
-        }
+        },
       });
     }
   }

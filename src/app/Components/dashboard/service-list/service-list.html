@@ -1,10 +1,9 @@
 <div class="service-list-page">
   <div class="page-header">
     <h2>Service Management</h2>
+    @if (isAdmin()) {
     <button class="btn btn-primary" (click)="openAddForm()">+ Add Service</button>
-  </div>
-
-  @if (showForm()) {
+    } @if (showForm()) {
     <div class="modal-overlay" (click)="closeForm()">
       <div class="modal-content card" (click)="$event.stopPropagation()">
         <div class="modal-header">
@@ -14,32 +13,65 @@
         <form [formGroup]="serviceForm" (ngSubmit)="onSubmit()" class="service-form">
           <div class="form-group">
             <label>Service Name *</label>
-            <input formControlName="serviceName" [class.error]="serviceForm.get('serviceName')?.invalid && serviceForm.get('serviceName')?.touched" />
+            <input
+              formControlName="serviceName"
+              [class.error]="
+                serviceForm.get('serviceName')?.invalid && serviceForm.get('serviceName')?.touched
+              "
+            />
           </div>
           <div class="form-row">
             <div class="form-group">
               <label>Domain *</label>
-              <input formControlName="domain" [class.error]="serviceForm.get('domain')?.invalid && serviceForm.get('domain')?.touched" />
+              <input
+                formControlName="domain"
+                [class.error]="
+                  serviceForm.get('domain')?.invalid && serviceForm.get('domain')?.touched
+                "
+              />
             </div>
             <div class="form-group">
               <label>User Name *</label>
-              <input formControlName="userName" [class.error]="serviceForm.get('userName')?.invalid && serviceForm.get('userName')?.touched" />
+              <input
+                formControlName="userName"
+                [class.error]="
+                  serviceForm.get('userName')?.invalid && serviceForm.get('userName')?.touched
+                "
+              />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label>Technology *</label>
-              <select formControlName="cms" [class.error]="serviceForm.get('cms')?.invalid && serviceForm.get('cms')?.touched">
+              <select
+                formControlName="cms"
+                [class.error]="serviceForm.get('cms')?.invalid && serviceForm.get('cms')?.touched"
+              >
                 @for (cms of cmsOptions; track cms) {
-                  <option [value]="cms">{{ cmsLabels[cms] }}</option>
+                <option [value]="cms">{{ cmsLabels[cms] }}</option>
                 }
               </select>
             </div>
             <div class="form-group">
               <label>Status *</label>
-              <select formControlName="status" [class.error]="serviceForm.get('status')?.invalid && serviceForm.get('status')?.touched">
+              <select
+                formControlName="status"
+                [class.error]="
+                  serviceForm.get('status')?.invalid && serviceForm.get('status')?.touched
+                "
+              >
                 @for (status of statusOptions; track status) {
-                  <option [value]="status">{{ statusLabels[status] }}</option>
+                <option [value]="status">{{ statusLabels[status] }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Payment Status</label>
+              <select formControlName="paymentStatus">
+                @for (paymentStatus of paymentStatusOptions; track paymentStatus) {
+                <option [value]="paymentStatus">{{ paymentStatusLabels[paymentStatus] }}</option>
                 }
               </select>
             </div>
@@ -47,17 +79,33 @@
           <div class="form-row">
             <div class="form-group">
               <label>Customer *</label>
-              <select formControlName="customerId" [class.error]="serviceForm.get('customerId')?.invalid && serviceForm.get('customerId')?.touched">
+              <select
+                formControlName="customerId"
+                [class.error]="
+                  serviceForm.get('customerId')?.invalid && serviceForm.get('customerId')?.touched
+                "
+              >
                 <option value="">Select Customer</option>
                 @for (customer of customers(); track customer.id) {
-                  <option [value]="customer.id">{{ customer.fullName }}</option>
+                <option [value]="customer.id">{{ customer.fullName }}</option>
                 }
               </select>
             </div>
+            @if (isAdmin()) {
             <div class="form-group">
-              <label>Hosting Server</label>
-              <input formControlName="hostingServer" />
+              <label>User (Optional)</label>
+              <select formControlName="applicationUserId">
+                <option value="">Select User</option>
+                @for (user of users(); track user.id) {
+                <option [value]="user.id">{{ user.email }} ({{ user.userName }})</option>
+                }
+              </select>
             </div>
+            }
+          </div>
+          <div class="form-group">
+            <label>Hosting Server</label>
+            <input formControlName="hostingServer" />
           </div>
           <div class="form-group">
             <label>Notes</label>
@@ -65,54 +113,49 @@
           </div>
           <div class="form-actions">
             <button type="button" class="btn btn-outline" (click)="closeForm()">Cancel</button>
-            <button type="submit" class="btn btn-primary" [disabled]="serviceForm.invalid">Save</button>
+            <button type="submit" class="btn btn-primary" [disabled]="serviceForm.invalid">
+              Save
+            </button>
           </div>
         </form>
       </div>
     </div>
-  }
-
-  @if (isLoading()) {
+    } @if (isLoading()) {
     <div class="spinner"></div>
-  } @else {
+    } @else {
     <div class="services-grid grid grid-3">
       @for (service of services(); track service.id) {
-        <div class="service-card card">
-          <div class="service-header">
-            <h3>{{ service.serviceName }}</h3>
-            <span class="status-badge" [class]="getStatusClass(service.status)">
-              {{ getStatusLabel(service.status) }}
-            </span>
-          </div>
-          <div class="service-details">
-            <div class="detail-item">
-              <strong>Domain:</strong> {{ service.domain }}
-            </div>
-            <div class="detail-item">
-              <strong>Technology:</strong> {{ getCMSLabel(service.cms) }}
-            </div>
-            <div class="detail-item">
-              <strong>User:</strong> {{ service.userName }}
-            </div>
-            @if (service.hostingServer) {
-              <div class="detail-item">
-                <strong>Hosting:</strong> {{ service.hostingServer }}
-              </div>
-            }
-            @if (service.notes) {
-              <div class="detail-item">
-                <strong>Notes:</strong> {{ service.notes }}
-              </div>
-            }
-          </div>
-          <div class="service-actions">
-            <button class="btn btn-outline btn-sm" (click)="openEditForm(service)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteService(service.id!)">Delete</button>
-          </div>
+      <div class="service-card card">
+        <div class="service-header">
+          <h3>{{ service.serviceName }}</h3>
+          <span class="status-badge" [class]="getStatusClass(service.status)">
+            {{ getStatusLabel(service.status) }}
+          </span>
         </div>
+        <div class="service-details">
+          <div class="detail-item"><strong>Domain:</strong> {{ service.domain }}</div>
+          <div class="detail-item"><strong>Technology:</strong> {{ getCMSLabel(service.cms) }}</div>
+          <div class="detail-item"><strong>User:</strong> {{ service.userName }}</div>
+          <div class="detail-item">
+            <strong>Payment Status:</strong> {{ getPaymentStatusLabel(service.paymentStatus ?? 1) }}
+          </div>
+          @if (service.hostingServer) {
+          <div class="detail-item"><strong>Hosting:</strong> {{ service.hostingServer }}</div>
+          } @if (service.notes) {
+          <div class="detail-item"><strong>Notes:</strong> {{ service.notes }}</div>
+          }
+        </div>
+        <div class="service-actions">
+          @if (isAdmin()) {
+          <button class="btn btn-outline btn-sm" (click)="openEditForm(service)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteService(service.id!)">Delete</button>
+          }
+        </div>
+      </div>
       } @empty {
-        <div class="empty-state">No services found</div>
+      <div class="empty-state">No services found</div>
       }
     </div>
-  }
+    }
+  </div>
 </div>

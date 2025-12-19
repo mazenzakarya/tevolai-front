@@ -42,12 +42,13 @@
 
 .hero-text {
   animation: fadeInUp 0.8s ease;
+  
 }
 
 .hero-title {
   font-size: 3.5rem;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.5;
   margin-bottom: 1.5rem;
   color: white;
 }

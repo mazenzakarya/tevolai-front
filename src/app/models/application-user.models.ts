@@ -2,8 +2,7 @@ export interface ApplicationUserDto {
   id?: string;
   userName?: string;
   email?: string;
-  firstName?: string;
-  lastName?: string;
+  fullName?: string;
   phoneNumber?: string;
   roles?: string[];
 }
@@ -12,16 +11,14 @@ export interface CreateApplicationUserDto {
   email: string;
   userName: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
+  fullName?: string;
   phoneNumber?: string;
 }
 
 export interface UpdateApplicationUserDto {
   email?: string;
   userName?: string;
-  firstName?: string;
-  lastName?: string;
+  fullName?: string;
   phoneNumber?: string;
 }
 
@@ -37,5 +34,3 @@ export interface AssignRoleDto {
 export interface CreateRoleDto {
   roleName: string;
 }
-
-

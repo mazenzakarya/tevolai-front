@@ -3,24 +3,32 @@ export enum WebsiteCMS {
   DotNet = 1,
   Joomla = 2,
   Drupal = 3,
-  Custom = 4
+  Custom = 4,
 }
 
 export enum WebsiteStatus {
   Active = 0,
   Suspended = 1,
-  InProgress = 2
+  InProgress = 2,
+}
+
+export enum PaymentStatus {
+  Paid = 0,
+  Unpaid = 1,
+  PartialPaid = 2,
 }
 
 export interface ServicesOnDashBoard {
   id?: number;
   customerId: number;
+  applicationUserId?: string;
   serviceName: string;
   domain: string;
   userName: string;
   cms: WebsiteCMS;
   hostingServer?: string;
   status: WebsiteStatus;
+  paymentStatus?: PaymentStatus;
   notes?: string;
   createdAt?: string;
   isDeleted?: boolean;
@@ -29,12 +37,14 @@ export interface ServicesOnDashBoard {
 export interface ServiesOnDashBoardDto {
   id?: number;
   customerId: number;
+  applicationUserId?: string;
   serviceName: string;
   domain: string;
   userName: string;
   cms: WebsiteCMS;
   hostingServer?: string;
   status: WebsiteStatus;
+  paymentStatus?: PaymentStatus;
   notes?: string;
   createdAt?: string;
   isDeleted?: boolean;
@@ -42,7 +52,7 @@ export interface ServiesOnDashBoardDto {
 
 export enum Language {
   English = 0,
-  Arabic = 1
+  Arabic = 1,
 }
 
 export interface ServicesOnMainDto {

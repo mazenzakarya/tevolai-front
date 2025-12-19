@@ -55,6 +55,7 @@ export class AuthService {
     const roleClaim =
       payload['role'] ??
       payload['roles'] ??
+      payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'] ??
       payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
 
     if (!roleClaim) return [];
@@ -67,6 +68,50 @@ export class AuthService {
     const target = (role || '').toLowerCase();
     const roles = this.getRoles();
     return roles.some((r) => (r || '').toLowerCase() === target);
+  }
+
+  getCurrentUserId(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      console.log('No token found');
+      return null;
+    }
+
+    const payload = this.decodeJwtPayload(token);
+    if (!payload) {
+      console.log('Failed to decode token payload');
+      return null;
+    }
+
+    const userId =
+      payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] ||
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/nameidentifier'] ||
+      payload['sub'] ||
+      payload['userId'] ||
+      payload['id'];
+
+    if (!userId) {
+      console.log('No user ID found in JWT payload. Available claims:', Object.keys(payload));
+      console.log('Full payload:', payload);
+    } else {
+      console.log('Extracted user ID:', userId);
+    }
+
+    return userId;
+  }
+
+  getCurrentUserEmail(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    const payload = this.decodeJwtPayload(token);
+    if (!payload) return null;
+
+    return (
+      payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] ||
+      payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/emailaddress'] ||
+      payload['email']
+    );
   }
 
   private decodeJwtPayload(token: string): any | null {

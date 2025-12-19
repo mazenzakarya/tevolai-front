@@ -3,6 +3,7 @@ export interface RegisterDto {
   password: string;
   userName: string;
   fullName?: string;
+  phoneNumber?: string;
 }
 
 export interface LoginDto {

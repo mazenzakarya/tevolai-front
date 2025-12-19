@@ -156,7 +156,8 @@ thead {
   background: var(--bg-secondary);
 }
 
-th, td {
+th,
+td {
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid var(--border-color);
@@ -283,3 +284,4 @@ tbody tr:hover {
     text-align: center;
     order: 1;
   }
+}
