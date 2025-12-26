@@ -39,7 +39,7 @@ export class LandingPage implements OnInit {
       heroTitle: 'Build Your Digital Future with',
       heroTitleHighlight: 'Tevolai',
       heroDescription: 'We transform your ideas into powerful web solutions. From custom websites to enterprise applications, we deliver excellence that drives your business forward.',
-      getStarted: 'Get Started Free',
+      getStarted: 'Get Started',
       ourServices: 'Our Services',
       projectsDelivered: 'Projects Delivered',
       clientSatisfaction: 'Client Satisfaction',
@@ -52,13 +52,13 @@ export class LandingPage implements OnInit {
       heroTitle: 'ابني مستقبلك الرقمي مع',
       heroTitleHighlight: 'تيفولاي',
       heroDescription: 'نحول أفكارك إلى حلول ويب قوية. من المواقع المخصصة إلى التطبيقات المؤسسية، نقدم التميز الذي يدفع عملك إلى الأمام. متخصصون في تقديم الخدمات للمدرسين والأطباء والمتاجر الإلكترونية',
-      getStarted: 'ابدأ مجاناً',
+      getStarted: 'سجل مجاناً',
       ourServices: 'خدماتنا',
       projectsDelivered: 'مشروع تم تسليمه',
       clientSatisfaction: 'رضا العملاء',
       supportAvailable: 'دعم متاح',
       readyToStart: 'هل أنت مستعد لبدء مشروعك؟',
-      letsDiscuss: 'دعنا نناقش كيف يمكننا المساعدة في جلب رؤيتك إلى الحياة',
+      letsDiscuss: 'دعنا نناقش كيف يمكننا المساعدة في تخقيق المزيد من النمو',
       contactUs: 'اتصل بنا'
     }
   };
