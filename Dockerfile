@@ -8,6 +8,5 @@ RUN npm run build -- --configuration production
 
 # Stage 2 — serve with nginx
 FROM nginx:alpine
-COPY --from=build /app/dist/tevolai /usr/share/nginx/html
+COPY --from=build /app/dist/tevolai/browser /usr/share/nginx/html
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
