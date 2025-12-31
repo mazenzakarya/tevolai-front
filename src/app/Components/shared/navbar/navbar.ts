@@ -7,6 +7,7 @@ interface NavTranslations {
   home: string;
   services: string;
   about: string;
+  blog: string;
   contact: string;
   dashboard: string;
   login: string;
@@ -18,34 +19,36 @@ interface NavTranslations {
   selector: 'app-navbar',
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css'
+  styleUrl: './navbar.css',
 })
 export class Navbar implements OnInit {
   isMenuOpen = signal(false);
   isAuthenticated = signal(false);
   currentLang = signal<'en' | 'ar'>('ar');
-  
+
   translations: { en: NavTranslations; ar: NavTranslations } = {
     en: {
       home: 'Home',
       services: 'Services',
       about: 'About',
+      blog: 'Blog',
       contact: 'Contact',
       dashboard: 'Dashboard',
       login: 'Login',
       logout: 'Logout',
-      getStarted: 'Get Started'
+      getStarted: 'Get Started',
     },
     ar: {
       home: 'الرئيسية',
       services: 'الخدمات',
       about: 'من نحن',
+      blog: 'المدونة',
       contact: 'اتصل بنا',
       dashboard: 'لوحة التحكم',
       login: 'تسجيل الدخول',
       logout: 'تسجيل الخروج',
-      getStarted: 'ابدأ الآن'
-    }
+      getStarted: 'ابدأ الآن',
+    },
   };
 
   get t(): NavTranslations {
@@ -58,7 +61,7 @@ export class Navbar implements OnInit {
     private authService: AuthService
   ) {
     this.isAuthenticated.set(this.authService.isAuthenticated());
-    
+
     // Listen to route changes
     this.router.events.subscribe(() => {
       this.updateLanguageFromRoute();
@@ -89,7 +92,7 @@ export class Navbar implements OnInit {
   toggleLanguage() {
     const currentUrl = this.router.url;
     const newLang = this.currentLang() === 'ar' ? 'en' : 'ar';
-    
+
     let newUrl = currentUrl;
     if (newLang === 'ar') {
       // Switch to Arabic route
@@ -104,7 +107,7 @@ export class Navbar implements OnInit {
         newUrl = currentUrl.replace('/ar', '') || '/';
       }
     }
-    
+
     this.router.navigateByUrl(newUrl);
   }
 

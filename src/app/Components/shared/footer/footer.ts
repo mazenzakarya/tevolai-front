@@ -29,10 +29,11 @@ interface FooterTranslations {
 export class Footer implements OnInit {
   currentYear = new Date().getFullYear();
   currentLang = signal<'en' | 'ar'>('ar');
-  
+
   translations: { en: FooterTranslations; ar: FooterTranslations } = {
     en: {
-      tagline: 'Building exceptional web solutions for businesses worldwide. Your success is our mission.',
+      tagline:
+        'Building exceptional web solutions for businesses worldwide. Your success is our mission.',
       quickLinks: 'Quick Links',
       services: 'Services',
       contact: 'Contact',
@@ -46,7 +47,7 @@ export class Footer implements OnInit {
       uiux: 'UI/UX Design',
       privacy: 'Privacy Policy',
       terms: 'Terms of Service',
-      rights: 'All rights reserved.'
+      rights: 'All rights reserved.',
     },
     ar: {
       tagline: 'بناء حلول ويب استثنائية للشركات في جميع أنحاء العالم. نجاحك هو مهمتنا.',
@@ -63,8 +64,8 @@ export class Footer implements OnInit {
       uiux: 'تصميم واجهة المستخدم',
       privacy: 'سياسة الخصوصية',
       terms: 'شروط الخدمة',
-      rights: 'جميع الحقوق محفوظة.'
-    }
+      rights: 'جميع الحقوق محفوظة.',
+    },
   };
 
   get t(): FooterTranslations {
@@ -79,6 +80,12 @@ export class Footer implements OnInit {
 
   ngOnInit() {
     this.updateLanguageFromRoute();
+  }
+
+  navigateToContact(): void {
+    const route = this.currentLang() === 'ar' ? '/ar/contact' : '/contact';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.router.navigateByUrl(route);
   }
 
   private updateLanguageFromRoute() {

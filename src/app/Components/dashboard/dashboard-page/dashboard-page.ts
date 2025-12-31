@@ -26,6 +26,7 @@ export class DashboardPage implements OnInit {
   unreadMessages = signal<number>(0);
   isLoading = signal(true);
   isAdmin = signal(false);
+  isMobileSidebarOpen = false;
 
   constructor(
     private revenueService: RevenueService,
@@ -59,30 +60,30 @@ export class DashboardPage implements OnInit {
     // Load total revenue
     this.revenueService.getTotalRevenuesAmount().subscribe({
       next: (data) => this.totalRevenue.set(data.totalAmount),
-      error: () => this.totalRevenue.set(0)
+      error: () => this.totalRevenue.set(0),
     });
 
     // Load expenses count
     this.expenseService.getTotalExpensesAmount().subscribe({
       next: (data) => this.totalExpenses.set(data.totalAmount),
-      error: () => this.totalExpenses.set(0)
+      error: () => this.totalExpenses.set(0),
     });
 
     // Load customers count
     this.customerService.getAllCustomers().subscribe({
       next: (data) => this.totalCustomers.set(data.length),
-      error: () => this.totalCustomers.set(0)
+      error: () => this.totalCustomers.set(0),
     });
 
     // Load services count
     this.servicesService.getAllServices().subscribe({
       next: (data) => this.totalServices.set(data.length),
-      error: () => this.totalServices.set(0)
+      error: () => this.totalServices.set(0),
     });
 
     // Load users count
     this.applicationUserService.count().subscribe({
-      next: (count) => this.totalUsers.set(typeof count === 'number' ? count : 0),
+      next: (res: any) => this.totalUsers.set(typeof res.count === 'number' ? res.count : 0),
       error: () => this.totalUsers.set(0),
     });
 
@@ -95,7 +96,11 @@ export class DashboardPage implements OnInit {
       error: () => {
         this.unreadMessages.set(0);
         this.isLoading.set(false);
-      }
+      },
     });
+  }
+
+  toggleMobileSidebar() {
+    this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
   }
 }

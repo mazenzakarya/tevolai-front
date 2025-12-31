@@ -1,4 +1,4 @@
-<section class="hero-section">
+<section class="hero-section" id="top">
   <div class="container">
     <div class="hero-content">
       <div class="hero-text">
@@ -10,8 +10,10 @@
           {{ t.heroDescription }}
         </p>
         <div class="hero-actions">
-          <a routerLink="/register" class="btn btn-primary btn-large">{{ t.getStarted }}</a>
-          <a routerLink="/services" class="btn btn-outline btn-large">{{ t.ourServices }}</a>
+          <a [routerLink]="getRegisterRoute()" class="btn btn-primary btn-large">{{
+            t.getStarted
+          }}</a>
+          <a (click)="scrollToServices()" class="btn btn-outline btn-large">{{ t.ourServices }}</a>
         </div>
         <div class="hero-stats">
           <div class="stat-item">
@@ -38,9 +40,18 @@
               <span class="code-title">app.ts</span>
             </div>
             <div class="code-content">
-              <div class="code-line"><span class="code-keyword">const </span> <span class="code-var">future</span> = <span class="code-string">'Tevolai'</span>;</div>
-              <div class="code-line"><span class="code-keyword">const </span> <span class="code-var">innovation</span> = <span class="code-function">build</span>(<span class="code-string">'digital'</span>);</div>
-              <div class="code-line"><span class="code-keyword">return </span> <span class="code-var">excellence</span>;</div>
+              <div class="code-line">
+                <span class="code-keyword">const </span> <span class="code-var">future</span> =
+                <span class="code-string">'Tevolai'</span>;
+              </div>
+              <div class="code-line">
+                <span class="code-keyword">const </span> <span class="code-var">innovation</span> =
+                <span class="code-function">build</span>(<span class="code-string">'digital'</span
+                >);
+              </div>
+              <div class="code-line">
+                <span class="code-keyword">return </span> <span class="code-var">excellence</span>;
+              </div>
             </div>
           </div>
           <div class="tech-badge badge-1">
@@ -82,8 +93,12 @@
       <h2>{{ t.readyToStart }}</h2>
       <p>{{ t.letsDiscuss }}</p>
       <div class="cta-actions">
-        <a routerLink="/contact" class="btn btn-primary btn-large">{{ t.contactUs }}</a>
-        <a routerLink="/register" class="btn btn-outline btn-large">{{ t.getStarted }}</a>
+        <a (click)="scrollToTopAndNavigateContact()" class="btn btn-primary btn-large">{{
+          t.contactUs
+        }}</a>
+        <a [routerLink]="getRegisterRoute()" class="btn btn-outline btn-large">{{
+          t.getStarted
+        }}</a>
       </div>
     </div>
   </div>

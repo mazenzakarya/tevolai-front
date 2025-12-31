@@ -14,6 +14,7 @@ import { ServicesOnMainManagement } from './Components/dashboard/services-on-mai
 import { Users } from './Components/dashboard/users/users';
 import { PrivacyPolicy } from './Components/legal/privacy-policy/privacy-policy';
 import { TermsOfService } from './Components/legal/terms-of-service/terms-of-service';
+import { NotFound } from './Components/shared/not-found/not-found';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 
@@ -113,15 +114,15 @@ export const routes: Routes = [
         component: ServicesOnMainManagement,
         canActivate: [adminGuard],
       },
-          {
-            path: 'users',
-            component: Users,
+      {
+        path: 'users',
+        component: Users,
         canActivate: [adminGuard],
-          },
+      },
     ],
   },
   {
     path: '**',
-    redirectTo: '',
+    component: NotFound,
   },
 ];

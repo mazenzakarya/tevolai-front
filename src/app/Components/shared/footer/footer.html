@@ -9,41 +9,56 @@
       <div class="footer-section">
         <h3>Tevolai</h3>
         <p>{{ t.tagline }}</p>
-<div class="social-links">
-  <a href="https://facebook.com/tevolaitech" aria-label="Facebook" target="_blank">
-    <i class="fab fa-facebook-f"></i>
-  </a>
+        <div class="social-links">
+          <a href="https://facebook.com/tevolaitech" aria-label="Facebook" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+          </a>
 
-  <a href="https://x.com/tevolaiX" aria-label="Twitter" target="_blank">
-    <i class="fab fa-x-twitter"></i>
-  </a>
+          <a href="https://x.com/tevolaiX" aria-label="Twitter" target="_blank">
+            <i class="fab fa-x-twitter"></i>
+          </a>
 
-  <a href="#" aria-label="LinkedIn" target="_blank">
-    <i class="fab fa-linkedin-in"></i>
-  </a>
+          <a href="#" aria-label="LinkedIn" target="_blank">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
 
-  <a href="#" aria-label="GitHub" target="_blank">
-    <i class="fab fa-github"></i>
-  </a>
-</div>
-
+          <a href="#" aria-label="GitHub" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
       </div>
       <div class="footer-section">
         <h4>{{ t.quickLinks }}</h4>
         <ul>
-          <li><a [routerLink]="currentLang() === 'ar' ? '/ar' : '/'">{{ t.home }}</a></li>
-          <li><a [routerLink]="currentLang() === 'ar' ? '/ar/services' : '/services'">{{ t.servicesLink }}</a></li>
-          <li><a [routerLink]="currentLang() === 'ar' ? '/ar/about' : '/about'">{{ t.about }}</a></li>
-          <li><a [routerLink]="currentLang() === 'ar' ? '/ar/contact' : '/contact'">{{ t.contactLink }}</a></li>
+          <li>
+            <a href="#top">{{ t.home }}</a>
+          </li>
+          <li>
+            <a href="#ServicesOnMain">{{ t.servicesLink }}</a>
+          </li>
+          <li>
+            <a href="#about">{{ t.about }}</a>
+          </li>
+          <li>
+            <a (click)="navigateToContact()" role="button">{{ t.contactLink }}</a>
+          </li>
         </ul>
       </div>
       <div class="footer-section">
         <h4>{{ t.services }}</h4>
         <ul>
-          <li><a href="#ServicesOnMain">{{ t.webDev }}</a></li>
-          <li><a href="#ServicesOnMain">{{ t.wordpress }}</a></li>
-          <li><a href="#ServicesOnMain">{{ t.ecommerce }}</a></li>
-          <li><a href="#ServicesOnMain">{{ t.uiux }}</a></li>
+          <li>
+            <a href="#ServicesOnMain">{{ t.webDev }}</a>
+          </li>
+          <li>
+            <a href="#ServicesOnMain">{{ t.wordpress }}</a>
+          </li>
+          <li>
+            <a href="#ServicesOnMain">{{ t.ecommerce }}</a>
+          </li>
+          <li>
+            <a href="#ServicesOnMain">{{ t.uiux }}</a>
+          </li>
         </ul>
       </div>
       <div class="footer-section">
@@ -58,8 +73,12 @@
     <div class="footer-bottom">
       <p>&copy; {{ currentYear }} Tevolai. {{ t.rights }}</p>
       <div class="footer-links">
-        <a [routerLink]="currentLang() === 'ar' ? '/ar/privacy-policy' : '/privacy-policy'">{{ t.privacy }}</a>
-        <a [routerLink]="currentLang() === 'ar' ? '/ar/terms-of-service' : '/terms-of-service'">{{ t.terms }}</a>
+        <a [routerLink]="currentLang() === 'ar' ? '/ar/privacy-policy' : '/privacy-policy'">{{
+          t.privacy
+        }}</a>
+        <a [routerLink]="currentLang() === 'ar' ? '/ar/terms-of-service' : '/terms-of-service'">{{
+          t.terms
+        }}</a>
       </div>
     </div>
   </div>

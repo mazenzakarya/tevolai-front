@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../Services/AuthService';
+import { LoginDto } from '../../../models/auth.models';
 
 @Component({
   selector: 'app-login',
@@ -22,21 +23,27 @@ export class Login {
     });
   }
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.isLoading.set(true);
-      this.errorMessage.set(null);
+onSubmit() {
+  if (this.loginForm.valid) {
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
 
-      this.authService.login(this.loginForm.value).subscribe({
-        next: (response) => {
-          this.authService.setToken(response.token);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (error) => {
-          this.errorMessage.set(error.error?.message || 'Login failed. Please try again.');
-          this.isLoading.set(false);
-        },
-      });
-    }
+    const loginDto: LoginDto = {
+      Email: this.loginForm.value.email,
+      Password: this.loginForm.value.password
+    };
+
+    this.authService.login(loginDto).subscribe({
+      next: (response) => {
+        this.authService.setToken(response.token);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        this.errorMessage.set(error.error?.message || 'Login failed. Please try again.');
+        this.isLoading.set(false);
+      }
+    });
   }
+}
+
 }

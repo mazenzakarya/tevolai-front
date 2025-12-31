@@ -2,10 +2,10 @@
   <div class="container">
     <div class="navbar-content">
       <a [routerLink]="currentLang() === 'ar' ? '/ar' : '/'" class="navbar-brand">
-      <img src="logo.png" alt="Tevolai Logo" class="brand-icon" />
+        <img src="logo.png" alt="Tevolai Logo" class="brand-icon" />
         <span class="brand-text">Tevolai</span>
       </a>
-      
+
       <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen()">
         <span></span>
         <span></span>
@@ -15,44 +15,75 @@
       <div class="navbar-right">
         <ul class="navbar-menu" [class.active]="isMenuOpen()">
           <li>
-            <a [routerLink]="currentLang() === 'ar' ? '/ar' : '/'" 
-               routerLinkActive="active" 
-               [routerLinkActiveOptions]="{exact: true}">
+            <a
+              [routerLink]="currentLang() === 'ar' ? '/ar' : '/'"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               {{ t.home }}
             </a>
           </li>
           <li>
-            <a [routerLink]="currentLang() === 'ar' ? '/ar/services' : '/services'" 
-               routerLinkActive="active">
+            <a
+              [routerLink]="currentLang() === 'ar' ? '/ar/services' : '/services'"
+              routerLinkActive="active"
+            >
               {{ t.services }}
             </a>
           </li>
           <li>
-            <a [routerLink]="currentLang() === 'ar' ? '/ar/about' : '/about'" 
-               routerLinkActive="active">
+            <a
+              [routerLink]="currentLang() === 'ar' ? '/ar/about' : '/about'"
+              routerLinkActive="active"
+            >
               {{ t.about }}
             </a>
           </li>
+
+
           <li>
-            <a [routerLink]="currentLang() === 'ar' ? '/ar/contact' : '/contact'" 
-               routerLinkActive="active">
+            <a
+              [routerLink]="currentLang() === 'ar' ? '/ar/contact' : '/contact'"
+              routerLinkActive="active"
+            >
               {{ t.contact }}
             </a>
           </li>
-          
+                    <li>
+             <a href="/blog" target="_blank">{{ t.blog }}</a>
+          </li>
+
           @if (isAuthenticated()) {
-            <li><a routerLink="/dashboard" routerLinkActive="active">{{ t.dashboard }}</a></li>
+          <li>
+            <a routerLink="/dashboard" routerLinkActive="active">{{ t.dashboard }}</a>
+          </li>
           }
         </ul>
-        
+
         <div class="navbar-actions">
           @if (isAuthenticated()) {
-            <button class="btn btn-outline" (click)="logout()">{{ t.logout }}</button>
+          <button class="btn btn-outline" (click)="logout()">{{ t.logout }}</button>
           } @else {
-            <a [routerLink]="currentLang() === 'ar' ? '/ar/login' : '/login'" routerLinkActive="active" class="btn btn-outline">{{ t.login }}</a>
-            <a [routerLink]="currentLang() === 'ar' ? '/ar/register' : '/register'" routerLinkActive="active" class="btn btn-primary">{{ t.getStarted }}</a>
+          <a
+            [routerLink]="currentLang() === 'ar' ? '/ar/login' : '/login'"
+            routerLinkActive="active"
+            class="btn btn-outline"
+            >{{ t.login }}</a
+          >
+          <a
+            [routerLink]="currentLang() === 'ar' ? '/ar/register' : '/register'"
+            routerLinkActive="active"
+            class="btn btn-primary"
+            >{{ t.getStarted }}</a
+          >
           }
-          <button class="lang-btn" (click)="toggleLanguage()" [attr.aria-label]="currentLang() === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية'">
+          <button
+            class="lang-btn"
+            (click)="toggleLanguage()"
+            [attr.aria-label]="
+              currentLang() === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية'
+            "
+          >
             {{ currentLang() === 'en' ? 'العربية' : 'English' }}
           </button>
         </div>

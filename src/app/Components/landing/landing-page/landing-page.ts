@@ -28,30 +28,29 @@ interface Translations {
 })
 export class LandingPage implements OnInit {
   currentLang = signal<'en' | 'ar'>('ar');
-  
-  constructor(
-    private seoService: SeoService,
-    private router: Router
-  ) {}
-  
+
+  constructor(private seoService: SeoService, private router: Router) {}
+
   translations: { en: Translations; ar: Translations } = {
     en: {
       heroTitle: 'Build Your Digital Future with',
       heroTitleHighlight: 'Tevolai',
-      heroDescription: 'We transform your ideas into powerful web solutions. From custom websites to enterprise applications, we deliver excellence that drives your business forward.',
+      heroDescription:
+        'We transform your ideas into powerful web solutions. From custom websites to enterprise applications, we deliver excellence that drives your business forward.',
       getStarted: 'Get Started',
       ourServices: 'Our Services',
       projectsDelivered: 'Projects Delivered',
       clientSatisfaction: 'Client Satisfaction',
       supportAvailable: 'Support Available',
       readyToStart: 'Ready to Start Your Project?',
-      letsDiscuss: 'Let\'s discuss how we can help bring your vision to life',
-      contactUs: 'Contact Us'
+      letsDiscuss: "Let's discuss how we can help bring your vision to life",
+      contactUs: 'Contact Us',
     },
     ar: {
       heroTitle: 'ابني مستقبلك الرقمي مع',
       heroTitleHighlight: 'تيفولاي',
-      heroDescription: 'نحول أفكارك إلى حلول ويب قوية. من المواقع المخصصة إلى التطبيقات المؤسسية، نقدم التميز الذي يدفع عملك إلى الأمام. متخصصون في تقديم الخدمات للمدرسين والأطباء والمتاجر الإلكترونية',
+      heroDescription:
+        'نحول أفكارك إلى حلول ويب قوية. من المواقع المخصصة إلى التطبيقات المؤسسية، نقدم التميز الذي يدفع عملك إلى الأمام. متخصصون في تقديم الخدمات للمدرسين والأطباء والمتاجر الإلكترونية',
       getStarted: 'سجل مجاناً',
       ourServices: 'خدماتنا',
       projectsDelivered: 'مشروع تم تسليمه',
@@ -59,8 +58,8 @@ export class LandingPage implements OnInit {
       supportAvailable: 'دعم متاح',
       readyToStart: 'هل أنت مستعد لبدء مشروعك؟',
       letsDiscuss: 'دعنا نناقش كيف يمكننا المساعدة في تخقيق المزيد من النمو',
-      contactUs: 'اتصل بنا'
-    }
+      contactUs: 'اتصل بنا',
+    },
   };
 
   get t(): Translations {
@@ -70,7 +69,7 @@ export class LandingPage implements OnInit {
   toggleLanguage(): void {
     const newLang = this.currentLang() === 'en' ? 'ar' : 'en';
     const currentUrl = this.router.url;
-    
+
     let newUrl = currentUrl;
     if (newLang === 'ar') {
       // Switch to Arabic route
@@ -85,14 +84,14 @@ export class LandingPage implements OnInit {
         newUrl = currentUrl.replace('/ar', '') || '/';
       }
     }
-    
+
     this.router.navigateByUrl(newUrl);
   }
 
   ngOnInit() {
     // Set SEO for public landing page
     this.seoService.setPublicIndex();
-    
+
     // Detect language from route
     const url = this.router.url;
     const lang = url.startsWith('/ar') ? 'ar' : 'en';
@@ -101,5 +100,22 @@ export class LandingPage implements OnInit {
     document.documentElement.lang = lang;
     localStorage.setItem('preferredLanguage', lang);
     this.seoService.setLandingPageMeta(lang);
+  }
+
+  scrollToTopAndNavigateContact(): void {
+    const route = this.currentLang() === 'ar' ? '/ar/contact' : '/contact';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.router.navigateByUrl(route);
+  }
+
+  scrollToServices(): void {
+    const element = document.getElementById('ServicesOnMain');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  getRegisterRoute(): string {
+    return this.currentLang() === 'ar' ? '/ar/register' : '/register';
   }
 }

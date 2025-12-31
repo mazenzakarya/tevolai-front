@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../Services/AuthService';
@@ -10,6 +10,7 @@ import { AuthService } from '../../../Services/AuthService';
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
+  @Input() mobileOpen = false;
   isCollapsed = signal(false);
 
   constructor(private authService: AuthService) {}

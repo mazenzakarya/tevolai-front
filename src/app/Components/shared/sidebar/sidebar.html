@@ -1,10 +1,15 @@
-<aside class="sidebar" [class.collapsed]="isCollapsed()">
+<aside class="sidebar" [class.collapsed]="isCollapsed()" [class.mobile-open]="mobileOpen">
   <div class="sidebar-header">
     <h2>Tevolai</h2>
     <button class="toggle-btn" (click)="toggleSidebar()">☰</button>
   </div>
   <nav class="sidebar-nav">
-    <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-item"
+    >
       <span class="nav-icon">📊</span>
       <span class="nav-text">Dashboard</span>
     </a>
@@ -13,34 +18,34 @@
       <span class="nav-text">Services</span>
     </a>
     @if (isAdmin()) {
-      <a routerLink="/dashboard/customers" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">👥</span>
-        <span class="nav-text">Customers</span>
-      </a>
-      <a routerLink="/dashboard/services-on-main" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">⚛️</span>
-        <span class="nav-text">Services on main</span>
-      </a>
-      <a routerLink="/dashboard/revenue" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">💰</span>
-        <span class="nav-text">Revenue</span>
-      </a>
-      <a routerLink="/dashboard/expenses" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">💸</span>
-        <span class="nav-text">Expenses</span>
-      </a>
-      <a routerLink="/dashboard/contact-messages" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">📧</span>
-        <span class="nav-text">Messages</span>
-      </a>
-      <a routerLink="/dashboard/email-credentials" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">🔐</span>
-        <span class="nav-text">Email Settings</span>
-      </a>
-      <a routerLink="/dashboard/users" routerLinkActive="active" class="nav-item">
-        <span class="nav-icon">🧑‍💻</span>
-        <span class="nav-text">Users</span>
-      </a>
+    <a routerLink="/dashboard/customers" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">👥</span>
+      <span class="nav-text">Customers</span>
+    </a>
+    <a routerLink="/dashboard/services-on-main" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">⚛️</span>
+      <span class="nav-text">Services on main</span>
+    </a>
+    <a routerLink="/dashboard/revenue" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">💰</span>
+      <span class="nav-text">Revenue</span>
+    </a>
+    <a routerLink="/dashboard/expenses" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">💸</span>
+      <span class="nav-text">Expenses</span>
+    </a>
+    <a routerLink="/dashboard/contact-messages" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">📧</span>
+      <span class="nav-text">Messages</span>
+    </a>
+    <a routerLink="/dashboard/email-credentials" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🔐</span>
+      <span class="nav-text">Email Settings</span>
+    </a>
+    <a routerLink="/dashboard/users" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🧑‍💻</span>
+      <span class="nav-text">Users</span>
+    </a>
     }
   </nav>
 </aside>
