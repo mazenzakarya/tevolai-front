@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ServicesOnMainService } from '../../../Services/ServicesOnMainService';
+import { UploadService } from '../../../Services/UploadService';
 import { ServicesOnMainDto, Language } from '../../../models/services.models';
 import { environment } from '../../../../environments';
 
@@ -24,6 +25,7 @@ export class ServicesOnMainManagement implements OnInit {
 
   constructor(
     private servicesOnMainService: ServicesOnMainService,
+    private uploadService: UploadService,
     private http: HttpClient,
     private fb: FormBuilder
   ) {
@@ -104,20 +106,14 @@ export class ServicesOnMainManagement implements OnInit {
     }
 
     this.uploading.set(true);
-    const formData = new FormData();
-    formData.append('file', this.selectedFile);
 
     try {
-      // Assuming you have an image upload endpoint
-      // Adjust the endpoint based on your backend API
-      const response = await this.http
-        .post<{ url: string }>(`${environment.apiUrl}/upload`, formData)
-        .toPromise();
+      const response = await this.uploadService.uploadFile(this.selectedFile).toPromise();
       this.uploading.set(false);
       return response?.url || null;
     } catch (error) {
       this.uploading.set(false);
-      // Fallback: use base64 or return existing URL
+      // Fallback: use existing URL or base64
       return this.serviceForm.value.imageUrl || null;
     }
   }

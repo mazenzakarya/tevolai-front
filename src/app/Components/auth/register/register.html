@@ -16,23 +16,28 @@
     }
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" formControlName="fullName" placeholder="Full name" />
-        </div>
-
-        <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
-          <input
-            type="tel"
-            id="phoneNumber"
-            formControlName="phoneNumber"
-            placeholder="Phone number"
-          />
-        </div>
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" formControlName="fullName" placeholder="Full name" />
       </div>
-
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input
+          type="tel"
+          id="phoneNumber"
+          formControlName="phoneNumber"
+          inputmode="tel"
+          placeholder="Enter valid phone number ex: +20 1xxx"
+          autocomplete="tel"
+          dir="ltr"
+          [class.error]="
+            registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched
+          "
+        />
+        @if (registerForm.get('phoneNumber')?.invalid && registerForm.get('phoneNumber')?.touched) {
+        <span class="error-text">Enter a valid phone number </span>
+        }
+      </div>
       <div class="form-group">
         <label for="userName">Username *</label>
         <input
@@ -44,9 +49,12 @@
             registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched
           "
         />
-        @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) {
+        @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) { @if
+        (registerForm.get('userName')?.errors?.['required']) {
         <span class="error-text">Username is required</span>
-        }
+        } @else if (registerForm.get('userName')?.errors?.['minlength']) {
+        <span class="error-text">Username must be at least 3 characters</span>
+        } }
       </div>
 
       <div class="form-group">

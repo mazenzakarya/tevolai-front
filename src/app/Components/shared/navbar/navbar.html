@@ -1,7 +1,11 @@
 <nav class="navbar">
   <div class="container">
     <div class="navbar-content">
-      <a [routerLink]="currentLang() === 'ar' ? '/ar' : '/'" class="navbar-brand">
+      <a
+        [attr.href]="currentLang() === 'ar' ? '/ar#top' : '/#top'"
+        (click)="navigateToSection('top', $event)"
+        class="navbar-brand"
+      >
         <img src="logo.png" alt="Tevolai Logo" class="brand-icon" />
         <span class="brand-text">Tevolai</span>
       </a>
@@ -16,46 +20,46 @@
         <ul class="navbar-menu" [class.active]="isMenuOpen()">
           <li>
             <a
-              [routerLink]="currentLang() === 'ar' ? '/ar' : '/'"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
+              [attr.href]="currentLang() === 'ar' ? '/ar#top' : '/#top'"
+              (click)="navigateToSection('top', $event)"
             >
               {{ t.home }}
             </a>
           </li>
           <li>
             <a
-              [routerLink]="currentLang() === 'ar' ? '/ar/services' : '/services'"
-              routerLinkActive="active"
+              [attr.href]="currentLang() === 'ar' ? '/ar#ServicesOnMain' : '/#ServicesOnMain'"
+              (click)="navigateToSection('ServicesOnMain', $event)"
             >
               {{ t.services }}
             </a>
           </li>
           <li>
             <a
-              [routerLink]="currentLang() === 'ar' ? '/ar/about' : '/about'"
-              routerLinkActive="active"
+              [attr.href]="currentLang() === 'ar' ? '/ar#about' : '/#about'"
+              (click)="navigateToSection('about', $event)"
             >
               {{ t.about }}
             </a>
           </li>
 
-
           <li>
             <a
-              [routerLink]="currentLang() === 'ar' ? '/ar/contact' : '/contact'"
-              routerLinkActive="active"
+              [attr.href]="currentLang() === 'ar' ? '/ar#contact' : '/#contact'"
+              (click)="navigateToSection('contact', $event)"
             >
               {{ t.contact }}
             </a>
           </li>
-                    <li>
-             <a href="/blog" target="_blank">{{ t.blog }}</a>
+          <li>
+            <a href="/blog" target="_blank">{{ t.blog }}</a>
           </li>
 
           @if (isAuthenticated()) {
           <li>
-            <a routerLink="/dashboard" routerLinkActive="active">{{ t.dashboard }}</a>
+            <a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">{{
+              t.dashboard
+            }}</a>
           </li>
           }
         </ul>
@@ -84,7 +88,7 @@
               currentLang() === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية'
             "
           >
-            {{ currentLang() === 'en' ? 'العربية' : 'English' }}
+            {{ currentLang() === 'en' ? 'AR' : 'EN' }}
           </button>
         </div>
       </div>

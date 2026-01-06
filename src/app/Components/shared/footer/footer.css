@@ -100,6 +100,16 @@
   color: var(--primary-light);
 }
 
+.ltr-text {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
+[dir='rtl'] .footer-section ul li {
+  text-align: right;
+}
+
 @media (max-width: 768px) {
   .footer-bottom {
     flex-direction: column;

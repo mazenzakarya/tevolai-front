@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../Services/AuthService';
 
 interface NavTranslations {
@@ -25,6 +25,7 @@ export class Navbar implements OnInit {
   isMenuOpen = signal(false);
   isAuthenticated = signal(false);
   currentLang = signal<'en' | 'ar'>('ar');
+  private pendingSection: string | null = null;
 
   translations: { en: NavTranslations; ar: NavTranslations } = {
     en: {
@@ -55,16 +56,16 @@ export class Navbar implements OnInit {
     return this.translations[this.currentLang()];
   }
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authService: AuthService
-  ) {
+  constructor(private router: Router, private authService: AuthService) {
     this.isAuthenticated.set(this.authService.isAuthenticated());
 
     // Listen to route changes
-    this.router.events.subscribe(() => {
+    this.router.events.subscribe((event) => {
       this.updateLanguageFromRoute();
+      if (event instanceof NavigationEnd && this.pendingSection) {
+        this.scrollToSection(this.pendingSection);
+        this.pendingSection = null;
+      }
     });
   }
 
@@ -89,6 +90,10 @@ export class Navbar implements OnInit {
     this.isMenuOpen.set(!this.isMenuOpen());
   }
 
+  closeMenu() {
+    this.isMenuOpen.set(false);
+  }
+
   toggleLanguage() {
     const currentUrl = this.router.url;
     const newLang = this.currentLang() === 'ar' ? 'en' : 'ar';
@@ -109,11 +114,37 @@ export class Navbar implements OnInit {
     }
 
     this.router.navigateByUrl(newUrl);
+    this.closeMenu();
+  }
+
+  navigateToSection(sectionId: string, event?: Event) {
+    event?.preventDefault();
+    const targetSection = sectionId === 'home' ? 'top' : sectionId;
+    const url = this.router.url;
+    const onLanding = url === '/' || url === '' || url === '/ar';
+
+    if (onLanding) {
+      this.scrollToSection(targetSection);
+    } else {
+      this.pendingSection = targetSection;
+      const landingRoute = this.currentLang() === 'ar' ? '/ar' : '/';
+      this.router.navigateByUrl(landingRoute);
+    }
+
+    this.closeMenu();
+  }
+
+  private scrollToSection(sectionId: string) {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   logout() {
     this.authService.logout();
     this.isAuthenticated.set(false);
+    this.closeMenu();
     const lang = this.currentLang() === 'ar' ? '/ar' : '';
     this.router.navigate([lang || '/']);
   }

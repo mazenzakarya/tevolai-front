@@ -37,6 +37,35 @@
   padding: 2rem;
 }
 
+.whatsapp-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: white;
+}
+
+.whatsapp-card h3,
+.whatsapp-card p {
+  color: white;
+}
+
+.whatsapp-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+}
+
+.whatsapp-hint {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.ltr-text {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
+
 .info-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
@@ -74,8 +103,9 @@
   }
 
   .contact-info {
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
   }
 
   .info-card {

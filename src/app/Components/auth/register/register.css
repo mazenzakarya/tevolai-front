@@ -97,6 +97,11 @@
   font-weight: 600;
 }
 
+input[type='tel'] {
+  direction: ltr;
+  text-align: left;
+}
+
 @media (max-width: 768px) {
   .auth-card {
     padding: 2rem 1.5rem;

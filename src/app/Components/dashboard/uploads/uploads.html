@@ -1,0 +1,92 @@
+<div class="uploads-page">
+  <div class="page-header">
+    <h2>File Manager</h2>
+    <p>Upload and manage your files</p>
+  </div>
+
+  @if (successMessage()) {
+  <div class="alert alert-success">
+    {{ successMessage() }}
+  </div>
+  } @if (errorMessage()) {
+  <div class="alert alert-error">
+    {{ errorMessage() }}
+  </div>
+  }
+
+  <div class="upload-section card">
+    <div
+      class="upload-area"
+      [class.dragover]="dragover()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+    >
+      <div class="upload-icon">📤</div>
+      <h3>Drop files here or click to select</h3>
+      <p>Maximum file size: 5MB</p>
+      <p class="file-types">Supported: JPG, PNG, WebP, PDF</p>
+      <input
+        #fileInput
+        type="file"
+        class="file-input"
+        accept=".jpg,.jpeg,.png,.webp,.pdf"
+        (change)="onFileSelected($event)"
+        [disabled]="uploading()"
+      />
+      <button class="btn btn-primary" [disabled]="uploading()" (click)="fileInput.click()">
+        @if (uploading()) { ⏳ Uploading... } @else { 📁 Select File }
+      </button>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+  <div class="spinner"></div>
+  } @else {
+  <div class="files-section card">
+    <h3>Uploaded Files ({{ uploads().length }})</h3>
+
+    @if (uploads().length === 0) {
+    <p class="empty-state">No files uploaded yet</p>
+    } @else {
+    <div class="files-grid">
+      @for (upload of uploads(); track upload.name) {
+      <div class="file-card">
+        <div class="file-header">
+          <div class="file-icon">{{ getFileIcon(upload.name) }}</div>
+          <div class="file-name">{{ upload.name }}</div>
+        </div>
+        <div class="file-url">
+          <input type="text" [value]="upload.url" readonly class="url-input" />
+          <button
+            class="btn btn-small btn-outline"
+            (click)="copyToClipboard(upload.url)"
+            title="Copy URL"
+          >
+            📋
+          </button>
+        </div>
+        <div class="file-actions">
+          <a
+            [href]="upload.url"
+            target="_blank"
+            class="btn btn-small btn-outline"
+            title="View file"
+          >
+            👁️ View
+          </a>
+          <button
+            class="btn btn-small btn-danger"
+            (click)="deleteUpload(upload.name)"
+            title="Delete file"
+          >
+            🗑️ Delete
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  }
+</div>

@@ -11,6 +11,7 @@ import { Expense } from './Components/dashboard/expense/expense';
 import { ContactMessages } from './Components/dashboard/contact-messages/contact-messages';
 import { EmailCredentials } from './Components/dashboard/email-credentials/email-credentials';
 import { ServicesOnMainManagement } from './Components/dashboard/services-on-main/services-on-main';
+import { UploadsComponent } from './Components/dashboard/uploads/uploads';
 import { Users } from './Components/dashboard/users/users';
 import { PrivacyPolicy } from './Components/legal/privacy-policy/privacy-policy';
 import { TermsOfService } from './Components/legal/terms-of-service/terms-of-service';
@@ -112,6 +113,11 @@ export const routes: Routes = [
       {
         path: 'services-on-main',
         component: ServicesOnMainManagement,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'uploads',
+        component: UploadsComponent,
         canActivate: [adminGuard],
       },
       {

@@ -1,100 +1,104 @@
 <section class="contact-section section">
   <div class="container">
     <div class="contact-header text-center">
-      <h1>Get In Touch</h1>
-      <p>Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+      <h1>{{ t.title }}</h1>
+      <p>{{ t.subtitle }}</p>
     </div>
 
     <div class="contact-content">
       <div class="contact-info">
         <div class="info-card card">
           <div class="info-icon">📧</div>
-          <h3>Email Us</h3>
+          <h3>{{ t.emailUs }}</h3>
           <p>info@tevolai.com</p>
           <p>support@tevolai.com</p>
         </div>
         <div class="info-card card">
           <div class="info-icon">📞</div>
-          <h3>Call Us</h3>
-          <p>+20 1035466843</p>
-          <p>Mon - Fri, 9am - 6pm</p>
+          <h3>{{ t.callUs }}</h3>
+          <p class="ltr-text">{{ phoneNumber }}</p>
+          <p>{{ t.availability }}</p>
         </div>
-        <!-- <div class="info-card card">
-          <div class="info-icon">📍</div>
-          <h3>Visit Us</h3>
-          <p>123 Tech Street</p>
-          <p>Digital City, DC 12345</p>
-        </div> -->
+        <div class="info-card card whatsapp-card" (click)="openWhatsApp()">
+          <div class="info-icon">💬</div>
+          <h3>{{ t.whatsappUs }}</h3>
+          <p class="ltr-text">{{ phoneNumber }}</p>
+          <p class="whatsapp-hint">
+            {{ currentLang() === 'ar' ? 'انقر للدردشة' : 'Click to chat' }}
+          </p>
+        </div>
       </div>
 
       <div class="contact-form-wrapper card">
         @if (successMessage()) {
-          <div class="alert alert-success">
-            {{ successMessage() }}
-          </div>
+        <div class="alert alert-success">
+          {{ successMessage() }}
+        </div>
+        } @if (errorMessage()) {
+        <div class="alert alert-error">
+          {{ errorMessage() }}
+        </div>
         }
 
-        @if (errorMessage()) {
-          <div class="alert alert-error">
-            {{ errorMessage() }}
-          </div>
-        }
-
-        <h2>Send us a Message</h2>
+        <h2>{{ t.sendMessage }}</h2>
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
           <div class="form-group">
-            <label for="name">Your Name</label>
+            <label for="name">{{ t.nameLabel }}</label>
             <input
               type="text"
               id="name"
               formControlName="name"
-              placeholder="John Doe"
+              [placeholder]="t.namePlaceholder"
               [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
             />
             @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
-              <span class="error-text">Name is required</span>
+            <span class="error-text">{{ t.nameRequired }}</span>
             }
           </div>
 
           <div class="form-group">
-            <label for="email">Your Email</label>
+            <label for="email">{{ t.emailLabel }}</label>
             <input
               type="email"
               id="email"
               formControlName="email"
-              placeholder="john@example.com"
+              [placeholder]="t.emailPlaceholder"
               [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
             />
             @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
-              <span class="error-text">Please enter a valid email address</span>
+            <span class="error-text">{{ t.emailInvalid }}</span>
             }
           </div>
 
           <div class="form-group">
-            <label for="subject">Subject</label>
+            <label for="subject">{{ t.subjectLabel }}</label>
             <input
               type="text"
               id="subject"
               formControlName="subject"
-              placeholder="Project Inquiry"
-              [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched"
+              [placeholder]="t.subjectPlaceholder"
+              [class.error]="
+                contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched
+              "
             />
             @if (contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched) {
-              <span class="error-text">Subject is required</span>
+            <span class="error-text">{{ t.subjectRequired }}</span>
             }
           </div>
 
           <div class="form-group">
-            <label for="message">Message</label>
+            <label for="message">{{ t.messageLabel }}</label>
             <textarea
               id="message"
               formControlName="message"
               rows="6"
-              placeholder="Tell us about your project..."
-              [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+              [placeholder]="t.messagePlaceholder"
+              [class.error]="
+                contactForm.get('message')?.invalid && contactForm.get('message')?.touched
+              "
             ></textarea>
             @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
-              <span class="error-text">Message must be at least 10 characters</span>
+            <span class="error-text">{{ t.messageMinLength }}</span>
             }
           </div>
 
@@ -104,9 +108,9 @@
             [disabled]="contactForm.invalid || isLoading()"
           >
             @if (isLoading()) {
-              <span class="spinner-small"></span> Sending...
+            <span class="spinner-small"></span> {{ t.sending }}
             } @else {
-              Send Message
+            {{ t.sendButton }}
             }
           </button>
         </form>
