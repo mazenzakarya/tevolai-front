@@ -12,7 +12,6 @@ interface NavTranslations {
   dashboard: string;
   login: string;
   logout: string;
-  getStarted: string;
 }
 
 @Component({
@@ -35,9 +34,8 @@ export class Navbar implements OnInit {
       blog: 'Blog',
       contact: 'Contact',
       dashboard: 'Dashboard',
-      login: 'Login',
+      login: '➜]',
       logout: 'Logout',
-      getStarted: 'Get Started',
     },
     ar: {
       home: 'الرئيسية',
@@ -46,9 +44,8 @@ export class Navbar implements OnInit {
       blog: 'المدونة',
       contact: 'اتصل بنا',
       dashboard: 'لوحة التحكم',
-      login: 'تسجيل الدخول',
+      login: '➜]',
       logout: 'تسجيل الخروج',
-      getStarted: 'ابدأ الآن',
     },
   };
 

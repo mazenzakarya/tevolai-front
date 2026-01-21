@@ -1,0 +1,87 @@
+services:
+  mysql_tevolai:
+    image: mysql:8.0
+    container_name: tevolai-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: tevolai
+      MYSQL_USER: tevolai
+      MYSQL_PASSWORD: tevolai123
+    volumes:
+      - tevolai_mysql_data:/var/lib/mysql
+
+  api:
+    image: tevolai/tevolaiplus:latest
+    container_name: tevolai-api
+    restart: always
+    expose:
+      - "5000"
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=mysql_tevolai;Port=3306;Database=tevolai;User=tevolai;Password=tevolai123
+    volumes:
+      - tevolai_uploads:/app/uploads
+    depends_on:
+      - mysql_tevolai
+
+  frontend:
+    image: tevolai/tevolai-angular:latest
+    container_name: tevolai-front
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - api
+      - wordpress
+
+  wordpress:
+    image: wordpress:6.9-php8.2-apache
+    container_name: tevolai-wp
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: wp_db
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wpblog
+      PHP_UPLOAD_MAX_FILESIZE: 256M
+      PHP_POST_MAX_SIZE: 256M
+      PHP_MEMORY_LIMIT: 256M
+      PHP_MAX_EXECUTION_TIME: 300
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - wp_db
+
+  wp_db:
+    image: mysql:8.0
+    container_name: tevolai-wp-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: wpblog
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - wp_db_data:/var/lib/mysql
+    command:
+      --innodb-buffer-pool-size=256M
+      --max-connections=50
+      --table-open-cache=400
+      --thread-cache-size=50
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
+
+volumes:
+  tevolai_mysql_data:
+  tevolai_uploads:
+  wp_data:
+  wp_db_data:
+
